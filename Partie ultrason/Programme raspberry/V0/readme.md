@@ -21,3 +21,7 @@ Faire en boucle:
 
     3. envoyer les mesures au serveurs (si changement d’état)
         formatage de l'information: ID_capteur, valeur
+
+
+source connexion mqtt: https://www.emqx.com/en/blog/how-to-use-mqtt-in-python
+                       http://www.steves-internet-guide.com/publishing-messages-mqtt-client/
