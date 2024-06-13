@@ -31,6 +31,32 @@
 
 <main>
 
+    <h2>Salles gérées</h2>
+        <?php
+        include 'mysql.php'; // Connect to the database
+        
+        // Query to get the managed rooms
+        $query_rooms = "
+        SELECT Nom, Bat
+        FROM Salle
+        ";
+
+        $result_rooms = mysqli_query($id_bd, $query_rooms);
+
+        if ($result_rooms && mysqli_num_rows($result_rooms) > 0) {
+            echo "<table>";
+            echo "<tr><th>Salle</th><th>Bâtiment</th></tr>";
+            while ($room = mysqli_fetch_assoc($result_rooms)) {
+                echo "<tr><td>" . $room['Nom'] . "</td><td>" . $room['Bat'] . "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>Aucune salle trouvée.</p>";
+        }
+        echo "<br><br>";
+        // Close the database connection
+        mysqli_close($id_bd);
+        ?>
 
 </main>
 
