@@ -60,7 +60,7 @@ while True:
         print(distance)
 
         # Publier la donnée sur le serveur
-        client.publish("sae24/ultrason/capteur1", "1", qos=0) # Obstacle
+        client.publish("sae24/E102/ultra", "id:capteur1 data:1", qos=0) # Obstacle
         print("1")
 
         last_val = distance # enregistrer le nouveau seuil
@@ -70,7 +70,7 @@ while True:
     elif (distance < last_val-15 or distance > last_val+15) and distance < 500:
         ## pas d'ostacle ##
         # Publier la donnée sur le serveur
-        client.publish("sae24/ultrason/capteur1", "0", qos=0)
+        client.publish("sae24/E102/ultra", "id:capteur1 data:0", qos=0)
         print(distance)
         print("0")
         last_val = distance # enregistrer le nouveau seuil
