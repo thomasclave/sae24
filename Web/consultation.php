@@ -18,15 +18,15 @@
     <nav class="navbar">
         <a class="nav-nom" href="./index.php">SAE24</a>
         <ul class="nav-links">
-            <li class="active"><a href="./index.php">Accueil</a></li>
-            <li><a href="./consultation.php">Consultation</a></li>
+            <li><a href="./index.php">Accueil</a></li>
+            <li class="active"><a href="./consultation.php">Consultation</a></li>
             <li><a href="./mentions-legales.html">Mentions Légales</a></li>
         </ul>
      </nav>
      
      <!--Title-->
      <header>
-     <h2>Accueil SAE24</h2>
+     <h2>Consultation SAE24</h2>
      </header>
 
 <main>
