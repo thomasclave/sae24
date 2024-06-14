@@ -27,6 +27,7 @@ CREATE TABLE Data (
     Y INT,
     Date DATE,
     Time TIME,
-    IDcapteur INT,
-    FOREIGN KEY (IDcapteur) REFERENCES Capteur(IDcapteur)
+    Type VARCHAR(10),
+    NomSalle VARCHAR(30),
+    FOREIGN KEY (NomSalle) REFERENCES Salle(Nom)
 );
