@@ -33,7 +33,7 @@
 
     <h2>Salles gérées</h2>
         <?php
-        include 'mysql.php'; // Connect to the database
+        include("./script_bdd/mysql.php"); // Connect to the database
         
         // Query to get the managed rooms
         $query_rooms = "

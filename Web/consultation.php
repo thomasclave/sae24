@@ -1,5 +1,5 @@
 <?php
-include("mysql.php");
+include("./script_bdd/mysql.php");
 
 // Récupération des noms de salles avec leurs longueurs et largeurs
 $requete_salles = "SELECT NomSalle, Longueur, Largeur FROM Salle";
