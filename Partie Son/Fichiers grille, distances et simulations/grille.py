@@ -728,26 +728,12 @@ root.mainloop()
 ---------------------TEST V5.5 = FONCTIONNEL !!!---------------------
 # Ajout fonctionnalité pour capturer la sortie standard, un formatage pourresembler à un fichier lambda
 JSON et donc pour enregistrer ces données dans un fichier JSON
----------------------TEST V5.5 = FONCTIONNEL !!!---------------------
-# Ajout fonctionnalité pour capturer la sortie standard, un formatage pourresembler à un fichier lambda
-JSON et donc pour enregistrer ces données dans un fichier JSON
 
-
-ATTENTION : une partie du code est devenu obsolète. A traiter et épurer quand j'aurais le temps...
-
-"""
 ATTENTION : une partie du code est devenu obsolète. A traiter et épurer quand j'aurais le temps...
 
 """
 import tkinter as tk
 import pandas as pd
-import json
-import io
-import sys
-
-# la biblio JSON sert à traiter les format json
-# la biblio sys donne accès à des modules et fonction utilisées par l'interpréteur, ici la sortie standard
-# utilisé conjointement avec la biblio io pour écrire en string ou en binaire
 import json
 import io
 import sys
@@ -893,9 +879,6 @@ def on_click(event):
             binaire = convertir_en_binaire(nombre_decimal)
             print(f"Capteur 11, valeur de l'attenuation en binaire : {binaire}.\n\n")
 
-            #les problèmes de . entre les chiffre étaient liés au fait que le code était donné en string au niveau
-            # du sous programme de convertion, et le soucis du .0 à la fin était du à un float sur la valeur rendu ici en value1, value2, etc.
-            # j'ai donc transformer ces valeurs en int() et le tour à été joué :)
             #les problèmes de . entre les chiffre étaient liés au fait que le code était donné en string au niveau
             # du sous programme de convertion, et le soucis du .0 à la fin était du à un float sur la valeur rendu ici en value1, value2, etc.
             # j'ai donc transformer ces valeurs en int() et le tour à été joué :)
