@@ -37,7 +37,7 @@
         
         // Query to get the managed rooms
         $query_rooms = "
-        SELECT Nom, Bat
+        SELECT NomSalle, Bat
         FROM Salle
         ";
 
@@ -47,7 +47,7 @@
             echo "<table>";
             echo "<tr><th>Salle</th><th>Bâtiment</th></tr>";
             while ($room = mysqli_fetch_assoc($result_rooms)) {
-                echo "<tr><td>" . $room['Nom'] . "</td><td>" . $room['Bat'] . "</td></tr>";
+                echo "<tr><td>" . $room['NomSalle'] . "</td><td>" . $room['Bat'] . "</td></tr>";
             }
             echo "</table>";
         } else {
