@@ -904,28 +904,6 @@ def sauvegarder_json(output):
         json.dump(donnees_formatees, fichier, ensure_ascii=False, indent=4)
     print(f"Données sauvegardées dans le fichier CapteurBinaires.json")
 
-
-        sauvegarder_json(output)
-
-def sauvegarder_json(output):
-    """
-    Fonction pour sauvegarder les informations des capteurs en JSON.
-    """
-    capteurs = {}
-    for ligne in output:
-        if "Capteur" in ligne and "binaire" in ligne:
-            parts = ligne.split(":")
-            capteur = parts[0].split(",")[0].strip("Capteur ")
-            valeur = parts[1].strip("")
-            capteurs[capteur]=valeur
-
-    donnees_formatees = {"Relevé des capteurs son": capteurs}
-
-    with open('CapteurBinaires.json', 'w', encoding='utf-8') as fichier:
-        json.dump(donnees_formatees, fichier, ensure_ascii=False, indent=4)
-    print(f"Données sauvegardées dans le fichier CapteurBinaires.json")
-
-
 # Fonction pour réinitialiser la grille
 def reset_grid():
     for row in range(GRID_SIZE):
