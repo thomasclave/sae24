@@ -266,3 +266,27 @@ footer img {
     width: 5%;
     min-width: 70px;
 }
+
+/*table consultation data*/
+.salle-table {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.salle-table td {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+}
+
+.case_vide {
+    background-color: #fff;
+}
+
+.case_rouge {
+    background-color: red;
+}
+
+.case_bleue {
+    background-color: blue;
+}
