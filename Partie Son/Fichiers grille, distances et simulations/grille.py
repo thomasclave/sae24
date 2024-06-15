@@ -845,6 +845,8 @@ def sauvegarder_json(output):
     """
     Fonction pour sauvegarder les informations des capteurs en JSON, ils sont identifiés avec leurs
     numéros en binaire : 01, 10 et 11.
+
+    le fichier est sauvegardé dans le dossier racine de ce script, il est appelé CapteurBinaires.json
     """
     capteurs = {}
     for ligne in output:
