@@ -630,9 +630,6 @@ def on_click(event):
 
 
         double commentaires sinon les vrais commentaires n'en sont plus...
-
-
-        double commentaires sinon les vrais commentaires n'en sont plus...
         #   EXEMPLE de fonctionnement :
                 print(f"Capteur 1 : on va prendre le nombre décimal {value1} et le multiplié par 1000 avant de le convertir en en binaire.")
 
@@ -648,8 +645,6 @@ def on_click(event):
                 print(f"Cela correspond en binaire à {binaire}.\n\n")
 
                 affiché : "Cela correspond en binaire à 10110."
-
-
 
 
 
@@ -729,6 +724,7 @@ root.mainloop()
 # Ajout fonctionnalité pour capturer la sortie standard, un formatage pourresembler à un fichier lambda
 JSON et donc pour enregistrer ces données dans un fichier JSON
 
+
 ATTENTION : une partie du code est devenu obsolète. A traiter et épurer quand j'aurais le temps...
 
 """
@@ -802,17 +798,6 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 
-# Fonction pour capturer la sortie standard
-class Capturing(list):
-    def __enter__(self):
-        self._stdout = sys.stdout
-        sys.stdout = self._stringio = io.StringIO()
-        return self
-    def __exit__(self, *args):
-        self.extend(self._stringio.getvalue().splitlines())
-        sys.stdout = self._stdout
-
-
 # Fonction appelée lorsqu'on clique sur une case
 def on_click(event):
     col = (event.x - BORDER_SIZE) // CASE_SIZE
@@ -839,41 +824,12 @@ def on_click(event):
             nombre_decimal = value1
             binaire = convertir_en_binaire(nombre_decimal)
             print(f"Capteur 01, valeur de l'attenuation en binaire : {binaire}.")
-        # sert à encapsuler les données sortantes sur la sortie standard afin de les capturer dans un fichier
-        with Capturing() as output:
-            print(f"La case à été cliquée en ligne {row}, et colonne {col}\n")
-            # Affiche les valeurs correspondantes des trois feuilles
-            value1 = values1[row][col]
-            value2 = values2[row][col]
-            value3 = values3[row][col]
-            print(f"Valeur en ligne {row}, et colonne {col} pour le : ")
-            print(f"Capteur1: {value1}")
-            print(f"Capteur2: {value2}")
-            print(f"Capteur3: {value3}\n")
-            # Simule l'effet de bouton enfoncé
-            canvas.itemconfig(grid_ids[row][col], fill='darkgray')
-            root.after(100, lambda: canvas.itemconfig(grid_ids[row][col], fill='gray'))
-            move_circle(row, col)
-
-            print(f"Action sur les capteurs 1, 2 et 3 en cours...\n")
-            value1 = int(value1*1000)
-            nombre_decimal = value1
-            binaire = convertir_en_binaire(nombre_decimal)
-            print(f"Capteur 01, valeur de l'attenuation en binaire : {binaire}.")
 
             value2 = int(value2*1000)
             nombre_decimal = value2
             binaire = convertir_en_binaire(nombre_decimal)
             print(f"Capteur 10, valeur de l'attenuation en binaire : {binaire}.")
-            value2 = int(value2*1000)
-            nombre_decimal = value2
-            binaire = convertir_en_binaire(nombre_decimal)
-            print(f"Capteur 10, valeur de l'attenuation en binaire : {binaire}.")
 
-            value3 = int(value3*1000)
-            nombre_decimal = value3
-            binaire = convertir_en_binaire(nombre_decimal)
-            print(f"Capteur 11, valeur de l'attenuation en binaire : {binaire}.\n\n")
             value3 = int(value3*1000)
             nombre_decimal = value3
             binaire = convertir_en_binaire(nombre_decimal)
@@ -903,6 +859,7 @@ def sauvegarder_json(output):
     with open('CapteurBinaires.json', 'w', encoding='utf-8') as fichier:
         json.dump(donnees_formatees, fichier, ensure_ascii=False, indent=4)
     print(f"Données sauvegardées dans le fichier CapteurBinaires.json")
+
 
 # Fonction pour réinitialiser la grille
 def reset_grid():
