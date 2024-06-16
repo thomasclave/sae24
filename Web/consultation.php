@@ -86,37 +86,45 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         <br><br>
 
         <?php
-        // Affichage des résultats si le formulaire a été soumis
-        if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
-            if ($resultat_capteurs && mysqli_num_rows($resultat_capteurs) > 0) {
-                echo "<h2>Position des capteurs</h2>";
-                echo "<table>";
-                echo "<tr><th>Position X</th><th>Position Y</th></tr>";
+if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
+    if ($resultat_dimensions && mysqli_num_rows($resultat_dimensions) > 0) {
+
+        // Tableau pour afficher les positions des capteurs et de la personne
+        echo "<h2>Positions dans la salle</h2>";
+        echo "<table class='salle-table'>";
+        // Affichage des cases vides selon les dimensions de la salle
+        for ($y = 1; $y <= $largeur; $y++) {
+            echo "<tr>";
+            for ($x = 1; $x <= $longueur; $x++) {
+                $case_class = "case_vide";
+                // Vérification si la position correspond à un capteur
+                mysqli_data_seek($resultat_capteurs, 0); // Réinitialise l'itérateur
                 while ($capteur = mysqli_fetch_assoc($resultat_capteurs)) {
-                    echo "<tr><td>" . $capteur['Pos_X'] . "</td><td>" . $capteur['Pos_Y'] . "</td></tr>";
+                    if ($capteur['Pos_X'] == $x && $capteur['Pos_Y'] == $y) {
+                        $case_class = "case_rouge"; // Classe pour les capteurs
+                        break;
+                    }
                 }
-                echo "</table>";
-                echo "<br><br>";
-                echo "<h2>Dernière position de la personne</h2>";
-                echo "<table>";
-                echo "<tr><th>Position X</th><th>Position Y</th></tr>";
+                
+                // Vérification si la position correspond à la dernière position de la personne
+                mysqli_data_seek($resultat_personne, 0); // Réinitialise l'itérateur
                 while ($personne = mysqli_fetch_assoc($resultat_personne)) {
-                    echo "<tr><td>" . $personne['X'] . "</td><td>" . $personne['Y'] . "</td></tr>";
+                    if ($personne['X'] == $x && $personne['Y'] == $y) {
+                        $case_class = "case_bleue"; // Classe pour la personne
+                        break;
+                    }
                 }
-                echo "</table>";
-                echo "<br><br>";
-                echo "<h2>Dimensions de la salle</h2>";
-                echo "<table>";
-                echo "<tr><th>-</th><th>Valeur</th></tr>";
-                echo "<tr><td>Longueur (X)</td><td>". $longueur ."</td></tr>";
-                echo "<tr><td>Largeur (Y)</td><td>". $largeur."</td></tr>";
-                echo "</table>";
-                echo "<br><br>";
-            } else {
-                echo "<p>Aucun capteur de type $capteur trouvé dans la salle $salle.</p>";
+                echo "<td class='$case_class'></td>";
             }
+            echo "</tr>";
         }
-        ?>
+        echo "</table>";
+    } else {
+        echo "<p>Aucune salle trouvée avec ce nom.</p>";
+    }
+}
+?>
+<br><br>
 
     </main>
 
