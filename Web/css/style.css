@@ -270,13 +270,16 @@ footer img {
 /*table consultation data*/
 .salle-table {
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 2rem;
+    margin: 0 auto; 
+    width: 1%; 
 }
 
 .salle-table td {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #ccc;
+    width: 2rem; 
+    height: 2rem; 
+    border: 2px solid #ccc;
+    text-align: center; 
 }
 
 .case_vide {
