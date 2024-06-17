@@ -86,16 +86,16 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         <br><br>
 
         <?php
-if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
-    if ($resultat_dimensions && mysqli_num_rows($resultat_dimensions) > 0) {
+        if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
+            if ($resultat_dimensions && mysqli_num_rows($resultat_dimensions) > 0) {
 
-        // Tableau pour afficher les positions des capteurs et de la personne
-        echo "<h2>Positions dans la salle</h2>";
-        echo "<table class='salle-table'>";
-        // Affichage des cases vides selon les dimensions de la salle
-        for ($y = 1; $y <= $largeur; $y++) {
-            echo "<tr>";
-            for ($x = 1; $x <= $longueur; $x++) {
+            // Tableau pour afficher les positions des capteurs et de la personne
+            echo "<h2>Positions dans la salle</h2>";
+            echo "<table class='salle-table'>";
+            // Affichage des cases vides selon les dimensions de la salle
+            for ($y = 1; $y <= $largeur; $y++) {
+                echo "<tr>";
+                for ($x = 1; $x <= $longueur; $x++) {
                 $case_class = "case_vide";
                 // Vérification si la position correspond à un capteur
                 mysqli_data_seek($resultat_capteurs, 0); // Réinitialise l'itérateur
@@ -105,7 +105,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                         break;
                     }
                 }
-                
+
                 // Vérification si la position correspond à la dernière position de la personne
                 mysqli_data_seek($resultat_personne, 0); // Réinitialise l'itérateur
                 while ($personne = mysqli_fetch_assoc($resultat_personne)) {
@@ -119,12 +119,12 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
             echo "</tr>";
         }
         echo "</table>";
-    } else {
-        echo "<p>Aucune salle trouvée avec ce nom.</p>";
-    }
-}
-?>
-<br><br>
+        } else {
+            echo "<p>Aucune salle trouvée avec ce nom.</p>";
+            }
+        }
+        ?>
+    <br><br>
 
     </main>
 
