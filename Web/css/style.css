@@ -266,6 +266,13 @@ footer img {
 .case_bleue {
     background-color: blue;
 }
+.case_aqua {
+    background-color: aqua;
+}
+
+.case_grise {
+    background-color: grey;
+}
 
 .salle-table-ultra {
     border-collapse: collapse;
