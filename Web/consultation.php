@@ -8,6 +8,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     $capteur = $_POST["capteur"];
 
     //sql query to retrieve the dimensions of the selected room 
+    
     $requete_dimensions = "SELECT Longueur, Largeur FROM Salle WHERE NomSalle = '$salle'";
     //execute the query
     $resultat_dimensions = mysqli_query($id_bd, $requete_dimensions);
