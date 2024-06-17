@@ -1,10 +1,14 @@
 <?php
 include("./script_bdd/mysql.php");
+session_start();
 
 // Vérification si des données ont été postées depuis le formulaire
 if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     $salle = $_POST["salle"];
     $capteur = $_POST["capteur"];
+
+    $_SESSION["salle"] = $salle;
+    $_SESSION["capteur"] = $capteur;
 
     // Requête pour récupérer les dimensions de la salle sélectionnée
     $requete_dimensions = "SELECT Longueur, Largeur FROM Salle WHERE NomSalle = '$salle'";
@@ -113,13 +117,14 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                                     break;
                                 }
                             }
-                            echo "<td class='$case_class'></td>";
+                            // Ajout des attributs data-x et data-y pour chaque case
+                            echo "<td class='$case_class' data-x='$x' data-y='$y'></td>";
                         }
                         echo "</tr>";
                     }
                 } elseif ($capteur == 'Ultrason') {
                     echo "<table class='salle-table-ultra'>";
-                    echo "<tr class'salle-tr-ultra'>";
+                    echo "<tr class='salle-tr-ultra'>";
                     for ($x = 1; $x <= 7; $x++) {
                         $case_class = "case_vide_ultra";
 
@@ -140,7 +145,8 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                                 break;
                             }
                         }
-                        echo "<td class='$case_class'></td>";
+                        // Ajout de data-x pour chaque case ultrason
+                        echo "<td class='$case_class' data-x='$x'></td>";
                     }
                     echo "</tr>";
                 }
@@ -158,6 +164,9 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         Site réalisé dans le cadre de la SAE24<br>
         <a href="./mentions-legales.html">Mentions Légales</a><br>
     </footer>
+
+    <!-- Inclusion du script JavaScript pour l'actualisation -->
+    <script src="./scripts/script_actualisation.js"></script>
 
     <?php
     mysqli_close($id_bd);
