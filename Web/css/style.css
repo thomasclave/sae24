@@ -49,7 +49,7 @@ li.active a {
     color: #0efff3;
 }
 
-/*Elements Header (Titres des pages)*/
+/*Elements Header*/
 header{
     box-sizing: border-box;
     display: block;
@@ -66,7 +66,7 @@ header h2{
     text-transform: none;
 } 
 
-/*RWD sur les écrans avec une largeur < 900px*/
+/*RWD < 900px*/
 @media screen and (max-width: 1050px) {
     .navbar{
         padding: 0;
@@ -114,7 +114,7 @@ header h2{
     } 
 }
 
-/*Mise en forme des différentes balises de texte*/
+/*Formatting of different text tags*/
 p{
     box-sizing: border-box;
     color: rgb(51, 51, 51);
@@ -158,48 +158,21 @@ main {
     margin-top: 5rem;
 }
 
-/*Elements liés aux classes pour des éléments particuliers*/
-
-.citation{
-    font-family: "Great Vibes";
-    font-size: 2rem;
-    line-height: 40px;
-    text-align: center;
-    color: rgb(51, 51, 51);
-}
-
-.image-eportfolio{
-    width: 70%;
-    border-radius: 30px;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.liste-sitemap {
-    text-align: center;
-    font-size: 20px;
-    color: rgb(51, 51, 51);
-}
-
-audio {
-    width: 30%;
-    margin-left: 35%;
-    margin-right: 35%;
-}
-
 p img {
     width: 70%;
     border-radius: 10px;
     text-align: center;
     margin-top: 2rem;
 }
-/*Partie Tableau dans technique.html*/
+
+
 table{
     width: 70%;
     border: 1px solid black;
     border-collapse: collapse;
     margin-left: 15%;
     margin-right: 15%;
+
 }
 
 caption{
@@ -292,4 +265,104 @@ footer img {
 
 .case_bleue {
     background-color: blue;
+}
+
+.salle-table-ultra {
+    border-collapse: collapse;
+    margin-top: 2rem;
+    margin: 0 auto;
+
+}
+
+.salle-table-ultra td {
+    height: 30rem;
+    border: 2px solid #ccc;
+    text-align: center;
+    padding-left: 0rem;
+
+}
+
+.case_vide_ultra {
+    background-color: #fff;
+    height: 10rem;
+}
+
+.case_rouge_ultra {
+    background-color: red;
+    width: 1rem;
+    padding-left: 1rem;
+
+}
+
+.case_bleue_ultra {
+    background-color: blue;
+    height: 10rem;
+}
+
+
+/*Form Styling*/
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    width: 70%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+form label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+form select, form input[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+form select {
+    appearance: none; /* Remove default styling */
+    background-color: white;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%204%205%22%3E%3Cpath%20fill=%22%23333%22%20d=%22M2%200L0%202h4zm0%205L0%203h4z%22/%3E%3C/svg%3E'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.8rem top 50%;
+    background-size: 1rem auto;
+    padding-right: 2rem;
+}
+
+form select:focus {
+    border-color: #000000;
+    outline: none;
+}
+
+form input[type="submit"] {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #333;
+}
+
+form input[type="submit"]:active {
+    background-color: #0efff3;
+    color: black;
+}
+
+form input[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
