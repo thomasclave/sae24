@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import random
 import grovepi
 from grovepi import *
+import json
 
 ## Variables & fonctions ##
 led = 3 # Connexion de la LED sur la pin D3
@@ -13,13 +14,13 @@ ultrasonic = 2 # Connexion du capteur ultrason sur la pin D4
 seuil = 0
 def on_connect(client, userdata, flags, rc): # message lors de la connexion au serveur
     print("Connecté avec le code de retour: " + str(rc))
-def publish(value): # Publier la donnée sur le broker MQTT
-    print("Valeur publiée: " value)
-    client.publish("sae24/E102/ultra", "id:capteur1 data:"+value, qos=0) # Obstacle
+def publish(topic, message): # Publier la donnée sur le broker MQTT
+    print("Valeur publiée: " + message)
+    client.publish(topic, message)
 
 #### Initialisation connexion serveur MQTT ####
 client = mqtt.Client() # Créer une instance du client
-client.username_pw_set("CaptU1", "mosquitto") # ID et MDP de connexion
+client.username_pw_set("CaptU1", "a") # ID et MDP de connexion
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
 # Attacher les fonctions de callback
@@ -32,26 +33,12 @@ while True:
     except:
         print("Erreur de connexion au serveur")
         # Clignoter la LED
-        digitalWrite(led,1)
-        time.sleep(0.1)
-        digitalWrite(led,0)
-        time.sleep(0.1)
-        digitalWrite(led,1)
-        time.sleep(0.1)
-        digitalWrite(led,0)
-        time.sleep(0.1)
-        digitalWrite(led,1)
-        time.sleep(0.1)
-        digitalWrite(led,0)
-        time.sleep(0.1)
-        digitalWrite(led,1)
-        time.sleep(0.1)
-        digitalWrite(led,0)
-        time.sleep(0.1)
-        digitalWrite(led,1)
-        time.sleep(0.1)
-        digitalWrite(led,0)
-        time.sleep(0.1)
+        for i in range(5):
+            digitalWrite(led,1)
+            time.sleep(0.1)
+            digitalWrite(led,0)
+            time.sleep(0.1)
+
         continue
     else:
         #Executer la suite du code
@@ -74,7 +61,7 @@ while init: # Tant que le bloque initialisation n'est pas validé
         seuil = distance-40
         print(str("Le seuil enregistré est: ") + str(seuil))
         init = False
-    time.sleep(0.1) # ne pas surcharger le bus I2C
+    time.sleep(0.2) # ne pas surcharger le bus I2C
 digitalWrite(led,0) # Eteindre la LED
 #### FIN Initialisation du capteur: Enregistrement du seuil de detection ####
 
@@ -83,24 +70,34 @@ digitalWrite(led,0) # Eteindre la LED
 last_val = 0
 while True:
     distance = grovepi.ultrasonicRead(ultrasonic) # récuperer la distance mesurée
-    if distance < seuil and (distance < last_val-15 or distance > last_val+15) and distance < 500:  ## Faisceau coupé ##
-        print(distance)
-        publish("1") # Publier la donnée sur le serveur
+    print("Distance mesurée: " + str(distance))
+    if (distance < last_val-15 or distance > last_val+15) and distance < 490: # si la distance change
+        if distance < seuil:  ## Faisceau coupé ##
+            print(distance)
+            data = {
+                "id": "capteur1",
+                "data": "1"
+            }
+            publish("sae24/E102/ultra", json.dumps(data)) # Publier la donnée sur le serveur
 
-        last_val = distance # enregistrer la précédante mesure
-        digitalWrite(led,1) # Allumer la LED
-        time.sleep(0.25)
-        digitalWrite(led,0) # Eteindre la LED
-    elif (distance < last_val-15 or distance > last_val+15) and distance < 500: ## Faisceau libre ##
-        print(distance)
-        publish("0") # Publier la donnée sur le serveur
+            last_val = distance # enregistrer la précédante mesure
+            digitalWrite(led,1) # Allumer la LED
+            time.sleep(0.25)
+            digitalWrite(led,0) # Eteindre la LED
+        else: ## Faisceau libre ##
+            print(distance)
+            data = {
+                "id": "capteur1",
+                "data": "0"
+            }
+            publish("sae24/E102/ultra", json.dumps(data)) # Publier la donnée sur le serveur
 
-        last_val = distance # enregistrer la précédante mesure
-        digitalWrite(led,1) # Allumer la LED
-        time.sleep(0.25)
-        digitalWrite(led,0) # Eteindre la LED
+            last_val = distance # enregistrer la précédante mesure
+            digitalWrite(led,1) # Allumer la LED
+            time.sleep(0.25)
+            digitalWrite(led,0) # Eteindre la LED
 
-    time.sleep(0.1) # ne pas surcharger le bus I2C
+    time.sleep(0.2) # ne pas surcharger le bus I2C
 ## Fin Main ##
 
 
