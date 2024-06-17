@@ -14,6 +14,6 @@ while (true) { // Infinite loop to continuously fetch and process data // Boucle
 
     // Decode the JSON data into an associative array // Décoder les données JSON en un tableau associatif
     $jsondec = json_decode($rcpjson, true);
-
+    echo $jsondec;
 }
 ?>
