@@ -43,4 +43,3 @@ C= rotation_matrice_90_antihoraire(A)
 
 print(C)
 print(B)
-
