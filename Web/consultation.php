@@ -8,7 +8,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     $capteur = $_POST["capteur"];
 
     //sql query to retrieve the dimensions of the selected room 
-    
+
     $requete_dimensions = "SELECT Longueur, Largeur FROM Salle WHERE NomSalle = '$salle'";
     //execute the query
     $resultat_dimensions = mysqli_query($id_bd, $requete_dimensions);
@@ -111,7 +111,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                 }
 
                 // Checking if the position matches the person's last position
-                mysqli_data_seek($resultat_personne, 0); // Resets the iterator
+                mysqli_data_seek($resultat_personne, 0); 
                 while ($personne = mysqli_fetch_assoc($resultat_personne)) {
                     if ($personne['X'] == $x && $personne['Y'] == $y) {
                         $case_class = "case_bleue"; // special CSS class for the sensors boxes
