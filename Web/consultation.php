@@ -2,7 +2,7 @@
 include("./script_bdd/mysql.php");
 session_start();
 
-// Vérification si des données ont été postées depuis le formulaire
+// Check if data has been posted from the form
 if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     $salle = $_POST["salle"];
     $capteur = $_POST["capteur"];
@@ -10,18 +10,18 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     $_SESSION["salle"] = $salle;
     $_SESSION["capteur"] = $capteur;
 
-    // Requête pour récupérer les dimensions de la salle sélectionnée
+    // Query to retrieve the dimensions of the selected room
     $requete_dimensions = "SELECT Longueur, Largeur FROM Salle WHERE NomSalle = '$salle'";
     $resultat_dimensions = mysqli_query($id_bd, $requete_dimensions);
     $row_dimensions = mysqli_fetch_assoc($resultat_dimensions);
     $longueur = $row_dimensions['Longueur'];
     $largeur = $row_dimensions['Largeur'];
 
-    // Requête pour récupérer les positions des capteurs
+    // Query to retrieve the positions of the sensors
     $requete_capteurs = "SELECT Pos_X, Pos_Y FROM Capteur WHERE NomSalle = '$salle' AND TypeCapt = '$capteur'";
     $resultat_capteurs = mysqli_query($id_bd, $requete_capteurs);
 
-    // Requête pour récupérer la dernière position de la personne
+    // Query to retrieve the latest position of the person
     $requete_personne = "SELECT X, Y FROM Data WHERE NomSalle = '$salle' AND TypeCapt = '$capteur' ORDER BY Date DESC, Time DESC LIMIT 1";
     $resultat_personne = mysqli_query($id_bd, $requete_personne);
 }
@@ -35,16 +35,16 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultation</title>
 
-    <!-- Liens CSS -->
+    <!-- CSS Links -->
     <link rel="stylesheet" href="./css/style.css">
 
-    <!-- Liens vers les polices -->
+    <!-- Font Links -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <!-- Barre de navigation -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <a class="nav-nom" href="./index.php">SAE24</a>
         <ul class="nav-links">
@@ -54,7 +54,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         </ul>
     </nav>
 
-    <!-- Titre -->
+    <!-- Title -->
     <header>
         <h2>Consultation</h2>
     </header>
@@ -65,7 +65,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
             <select name="salle" id="salle" required>
                 <option value="">Choisissez une salle</option>
                 <?php
-                // Affichage des options de sélection des salles
+                // Display room selection options
                 $requete_salles = "SELECT NomSalle FROM Salle";
                 $resultat_salles = mysqli_query($id_bd, $requete_salles);
                 while ($row = mysqli_fetch_assoc($resultat_salles)) {
@@ -96,7 +96,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                 
                 if ($capteur == 'Son') {
                     
-                    // Bouton de réinitialisation
+                    // Reset button
                     echo "<button id='reset-button' class='reset-button'>Réinitialiser le parcours</button>";
                     echo "<br>";
                     echo "<table class='salle-table'>";
@@ -104,24 +104,24 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                         echo "<tr>";
                         for ($x = 1; $x <= $longueur; $x++) {
                             $case_class = "case_vide";
-                            // Vérification si la position correspond à un capteur
-                            mysqli_data_seek($resultat_capteurs, 0); // Réinitialise l'itérateur
+                            // Check if the position matches a sensor
+                            mysqli_data_seek($resultat_capteurs, 0); // Reset the iterator
                             while ($capteur_row = mysqli_fetch_assoc($resultat_capteurs)) {
                                 if ($capteur_row['Pos_X'] == $x && $capteur_row['Pos_Y'] == $y) {
-                                    $case_class = "case_rouge"; // Classe pour les capteurs
+                                    $case_class = "case_rouge"; // Class for sensors
                                     break;
                                 }
                             }
 
-                            // Vérification si la position correspond à la dernière position de la personne
-                            mysqli_data_seek($resultat_personne, 0); // Réinitialise l'itérateur
+                            // Check if the position matches the last position of the person
+                            mysqli_data_seek($resultat_personne, 0); // Reset the iterator
                             while ($personne = mysqli_fetch_assoc($resultat_personne)) {
                                 if ($personne['X'] == $x && $personne['Y'] == $y) {
-                                    $case_class = "case_bleue"; // Classe pour la personne
+                                    $case_class = "case_bleue"; // Class for the person
                                     break;
                                 }
                             }
-                            // Ajout des attributs data-x et data-y pour chaque case
+                            // Add data-x and data-y attributes for each cell
                             echo "<td class='$case_class' data-x='$x' data-y='$y'></td>";
                         }
                         echo "</tr>";
@@ -133,24 +133,24 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                     for ($x = 1; $x <= 7; $x++) {
                         $case_class = "case_vide_ultra";
 
-                        // Vérification si la position correspond à un capteur
-                        mysqli_data_seek($resultat_capteurs, 0); // Réinitialise l'itérateur
+                        // Check if the position matches a sensor
+                        mysqli_data_seek($resultat_capteurs, 0); // Reset the iterator
                         while ($capteur_row = mysqli_fetch_assoc($resultat_capteurs)) {
                             if ($capteur_row['Pos_X'] == $x) {
-                                $case_class = "case_rouge_ultra"; // Classe pour les capteurs
+                                $case_class = "case_rouge_ultra"; // Class for sensors
                                 break;
                             }
                         }
 
-                        // Vérification si la position correspond à la dernière position de la personne
-                        mysqli_data_seek($resultat_personne, 0); // Réinitialise l'itérateur
+                        // Check if the position matches the last position of the person
+                        mysqli_data_seek($resultat_personne, 0); // Reset the iterator
                         while ($personne = mysqli_fetch_assoc($resultat_personne)) {
                             if ($personne['X'] == $x) {
-                                $case_class = "case_bleue_ultra"; // Classe pour la personne
+                                $case_class = "case_bleue_ultra"; // Class for the person
                                 break;
                             }
                         }
-                        // Ajout de data-x pour chaque case ultrason
+                        // Add data-x for each ultrasonic cell
                         echo "<td class='$case_class' data-x='$x'></td>";
                     }
                     echo "</tr>";
@@ -161,7 +161,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
             }
             echo "<br><br>";
 
-            // Tableau des Légendes
+            // Legend Table
             echo "<table class='tab-legende'>";
             echo "<caption>Légende</caption>";
             echo "<tr><th>Couleur</th><th>Correspondance</th></tr>";
@@ -174,13 +174,13 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         <br><br>
     </main>
 
-    <!-- Pied de page -->
+    <!-- Footer -->
     <footer>
         Site réalisé dans le cadre de la SAE24<br>
         <a href="./mentions-legales.html">Mentions Légales</a><br>
     </footer>
 
-    <!-- Inclusion des scripts JavaScript -->
+    <!-- JavaScript Scripts -->
     <script src="./scripts/script_actualisation.js"></script>
     <script src="./scripts/bouton_reset.js"></script>
 

@@ -1,26 +1,26 @@
 <?php
-// Inclure les dépendances nécessaires (connexion à la base de données, etc.)
+// Include necessary dependencies (database connection, etc.)
 include("../script_bdd/mysql.php");
 session_start();
 
 $salle = $_SESSION["salle"];
 $capteur = $_SESSION["capteur"];
 
-// Requête pour récupérer la dernière position de la personne
+// Query to retrieve the latest position of the person
 $requete_personne = "SELECT X, Y FROM Data WHERE NomSalle = '$salle' AND TypeCapt = '$capteur' ORDER BY Date DESC, Time DESC LIMIT 1";
 $resultat_personne = mysqli_query($id_bd, $requete_personne);
 
-// Vérifier s'il y a des résultats
+// Check if there are any results
 if ($resultat_personne && mysqli_num_rows($resultat_personne) > 0) {
-    // Récupérer les données de la dernière position
+    // Retrieve the data of the latest position
     $row = mysqli_fetch_assoc($resultat_personne);
     $position = array('X' => $row['X'], 'Y' => $row['Y']);
     echo json_encode($position);
 } else {
-    // Si aucune position n'est trouvée, retourner un objet vide
+    // If no position is found, return an empty object
     echo json_encode(array());
 }
 
-// Fermer la connexion à la base de données
+// Close the database connection
 mysqli_close($id_bd);
 ?>

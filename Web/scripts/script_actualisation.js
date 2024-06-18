@@ -1,16 +1,17 @@
-// Attend que le DOM soit chargé
+// Wait for the DOM to be loaded
 document.addEventListener("DOMContentLoaded", function() {
-    // Fonction pour actualiser les données toutes les secondes
-    setInterval(actualiserPositions, 1000); // Actualisation toutes les 1000 ms (1 seconde)
+    // Function to update the data every second
+    setInterval(actualiserPositions, 1000); // Refresh every 1000 ms (1 second)
 
-    // Fonction pour actualiser les positions
+    // Function to update the positions
     function actualiserPositions() {
-        // Effectue une requête AJAX pour récupérer la dernière position de la personne
+        // Performs an AJAX request to retrieve the latest position of the person
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "./scripts/script_actualisation.php", true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                // Réponse reçue, traitement des données
+                // Response received, data processing
+
                 var data = JSON.parse(xhr.responseText);
                 mettreAJourTableaux(data);
             }
@@ -18,13 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.send();
     }
 
-    // Fonction pour mettre à jour les tableaux avec les nouvelles données
+    // Function to update the tables with the new data
     function mettreAJourTableaux(data) {
         mettreAJourTableauSon(data);
         mettreAJourTableauUltrason(data);
     }
 
-    // Fonction pour mettre à jour le tableau Son avec les nouvelles données
+    // Function to update the Son table with the new data
     function mettreAJourTableauSon(data) {
         var casesSon = document.querySelectorAll(".salle-table td");
 
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Fonction pour mettre à jour le tableau Ultrason avec les nouvelles données
+    // Function to update the Ultrason table with the new data
     function mettreAJourTableauUltrason(data) {
         var casesUltrason = document.querySelectorAll(".salle-table-ultra td");
 
