@@ -95,6 +95,10 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                 echo "<h2>Positions $capteur dans la salle $salle :</h2>";
                 
                 if ($capteur == 'Son') {
+                    
+                    // Bouton de réinitialisation
+                    echo "<button id='reset-button' class='reset-button'>Réinitialiser le parcours</button>";
+                    echo "<br>";
                     echo "<table class='salle-table'>";
                     for ($y = 1; $y <= $largeur; $y++) {
                         echo "<tr>";
@@ -124,6 +128,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                     }
                 } elseif ($capteur == 'Ultrason') {
                     echo "<table class='salle-table-ultra'>";
+                    echo "<tr><th>Zone 1</th><th></th><th>Zone 2</th><th></th><th>Zone 3</th><th></th><th>Zone 4</th></tr>";
                     echo "<tr class='salle-tr-ultra'>";
                     for ($x = 1; $x <= 7; $x++) {
                         $case_class = "case_vide_ultra";
@@ -154,6 +159,16 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
             } else {
                 echo "<p>Aucune salle trouvée avec ce nom.</p>";
             }
+            echo "<br><br>";
+
+            // Tableau des Légendes
+            echo "<table class='tab-legende'>";
+            echo "<caption>Légende</caption>";
+            echo "<tr><th>Couleur</th><th>Correspondance</th></tr>";
+            echo "<tr><td class='case_rouge_leg'></td><td>Capteurs</td></tr>";
+            echo "<tr><td class='case_bleue_leg'></td><td>Dernière Position</td></tr>";
+            echo "<tr><td class='case_grise_leg'></td><td>Positions Précédentes</td></tr>";
+            echo "</table>";
         }
         ?>
         <br><br>
@@ -165,8 +180,10 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         <a href="./mentions-legales.html">Mentions Légales</a><br>
     </footer>
 
-    <!-- Inclusion du script JavaScript pour l'actualisation -->
+    <!-- Inclusion des scripts JavaScript -->
     <script src="./scripts/script_actualisation.js"></script>
+    <script src="./scripts/bouton_reset.js"></script>
+
 
     <?php
     mysqli_close($id_bd);
