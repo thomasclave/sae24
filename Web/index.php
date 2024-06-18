@@ -31,6 +31,70 @@
 
 <main>
 
+    <h2>Situation professionnelle</h2>
+    <p>
+    Exploiter des signaux émis par trois capteurs
+    à ultrasons et réfléchis par une personne 
+    <br><br>
+    Exploiter un signal sonore (sinusoïdal) émis par
+    un objet et reçu par trois microphones.
+    <br><br>
+    Estimer la position en (x,y) de l'objet dans
+    une pièce à l'aide des deux approches
+    <br><br>
+    Présenter l'estimation de la position sur une
+    interface dédiée
+    <br><br>
+    </p>
+
+
+    <h2>Fonctionnalités du projet</h2>
+
+    <p>
+    Permettre à une personne de retrouver un objet en lui
+faisant émettre un son.
+
+    <br><br>
+    Permettre de localiser une personne dans une pièce
+via les capteurs ultrasons.
+    <br><br>
+    </p>
+    
+
+      
+      
+
+
+    <h2>Salles gérées</h2>
+        <?php
+        include("./script_bdd/mysql.php"); // Connect to the database
+        
+        // Query to get the managed rooms
+        $query_rooms = "
+        SELECT NomSalle, Bat
+        FROM Salle
+        ";
+
+        $result_rooms = mysqli_query($id_bd, $query_rooms);
+
+        if ($result_rooms && mysqli_num_rows($result_rooms) > 0) {
+            echo "<table>";
+            echo "<tr><th>Salle</th><th>Bâtiment</th></tr>";
+            while ($room = mysqli_fetch_assoc($result_rooms)) {
+                echo "<tr><td>" . $room['NomSalle'] . "</td><td>" . $room['Bat'] . "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>Aucune salle trouvée.</p>";
+        }
+        echo "<br><br>";
+        // Close the database connection
+        mysqli_close($id_bd);
+        ?>
+
+        
+
+
 
 </main>
 
