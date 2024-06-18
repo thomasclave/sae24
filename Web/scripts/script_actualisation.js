@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (x == data.X && y == data.Y) {
                 caseElement.classList.add("case_bleue");
+				if (caseElement.classList.contains("case_grise")) {
+                caseElement.classList.remove("case_grise");
+                caseElement.classList.add("case_bleue");
+				}
             } else if (caseElement.classList.contains("case_bleue")) {
                 caseElement.classList.remove("case_bleue");
                 caseElement.classList.add("case_grise");
