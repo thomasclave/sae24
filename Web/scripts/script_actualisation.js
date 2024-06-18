@@ -35,9 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (x == data.X && y == data.Y) {
                 caseElement.classList.add("case_bleue");
             } else if (caseElement.classList.contains("case_bleue")) {
-                    caseElement.classList.remove("case_bleue");
-                    caseElement.classList.add("case_aqua");
-            } else if (caseElement.classList.contains("case_aqua")) {
                 caseElement.classList.remove("case_bleue");
                 caseElement.classList.add("case_grise");
             } else {
@@ -56,10 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (x == data.X) {
                 caseElement.classList.add("case_bleue_ultra");
-            } else if (caseElement.classList.contains("case_bleue_ultra")) {
-                    caseElement.classList.remove("case_bleue_ultra");
-                    caseElement.classList.add("case_vide_ultra");
-            }else{
+            } else {
                 caseElement.classList.remove("case_bleue_ultra");
                 caseElement.classList.add("case_vide_ultra");
             }
