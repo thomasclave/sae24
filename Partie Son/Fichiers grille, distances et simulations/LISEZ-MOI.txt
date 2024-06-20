@@ -1,12 +1,7 @@
 Ici sont les fichiers fait pour plusieurs étapes de la partie "son" du projet SAE24 :
 
 - Le fichier excel servira à :
-	Feuille 1 = tableau de données calculées (en Feuille 2) afin d'être 
-	extraites et utilisées par le programme python.
-
-	Feuille 2 = le traitement des donnée nécessaire à l'établissement :
-		- des distances de chacunes des cases vis à vis de la première (haut - gauche)
-		- les calculs de l'amplitude du signal et de son atténuation
+	- Calcul de l'aténuation de TOUTES les cases par rapport à une case spécifique (la case détécteur en 0)
 		
 - Un script python qui servira à :
 	- Créer une interface graphique composée d'une grille de 16x16 de côté et d'un
@@ -20,7 +15,7 @@ Ici sont les fichiers fait pour plusieurs étapes de la partie "son" du projet S
 	- Renvoi de la donnée faite précédement dans l'extract du Excel pour la case choisie
 	- Donnée aténuation arrondi au millième
 	- Encodage des données en binaire
-	- Création d'un fichier JSON avec trois topics
+	- Envoi MQTT au format JSON avec trois topics
 
 
 fonctionne avec :

@@ -922,10 +922,11 @@ root.mainloop()
 
 """
 ---------------------TEST V5.8 = FONCTIONNEL !!!---------------------
-I removed the functionality that wrote a JSON file to the root of this code, instead
-the code sends the data directly to the MQTT server, formatted as a JSON.
+j'ai retiré la fonctionnalité qui écrivait un fichier JSON à la racine de ce code, à la place
+le code envoi directement la donnée sur le serveur MQTT formatée comme un JSON.
 
-WARNING: some of the code has become obsolete. To be processed and cleaned up when I have time...
+ATTENTION : une partie du code est devenu obsolète. A traiter et épurer quand j'aurais le temps...
+
 """
 
 import tkinter as tk
@@ -935,60 +936,60 @@ import io
 import sys
 import paho.mqtt.client as mqtt
 
-# the JSON biblio is used to process json formats
-# the sys biblio gives access to modules and functions used by the interpreter, here the standard output
-# used in conjunction with the io biblio to write in string or binary format
+# la biblio JSON sert à traiter les format json
+# la biblio sys donne accès à des modules et fonction utilisées par l'interpréteur, ici la sortie standard
+# utilisé conjointement avec la biblio io pour écrire en string ou en binaire
 
-# Grid size
+# Taille de la grille
 GRID_SIZE = 16
-# Size of square in pixels (equivalent to 50cm in real life)
+# Taille d'une case en pixels (équivalent de 50cm en vrai)
 CASE_SIZE = 50
-# Circle size (80% of box size)
+# Taille du cercle (80% de la taille de la case)
 CIRCLE_SIZE = int(CASE_SIZE * 0.8)
-# Border size in pixels (1 cm = 37.7953 pixels)
+# Taille de la bordure en pixels (1 cm = 37.7953 pixels)
 BORDER_SIZE = int(1 * 37.7953)
 
-# Read the Excel file and store the values of the three sheets in separate DataFrames
-excel_file = 'matrices_tournees.xlsx'  # Replace with the path to your Excel file
+# Lire le fichier Excel et stocker les valeurs des trois feuilles dans des DataFrames séparés
+excel_file = 'matrices_tournees.xlsx'  # Remplacez par le chemin de votre fichier Excel
 df1 = pd.read_excel(excel_file, sheet_name='AtenuationC1', header=None)
 df2 = pd.read_excel(excel_file, sheet_name='AtenuationC2', header=None)
 df3 = pd.read_excel(excel_file, sheet_name='AtenuationC3', header=None)
 
-# Convert each DataFrame into a list of lists
+# Convertir chaque DataFrame en une liste de listes
 values1 = df1.values.tolist()
 values2 = df2.values.tolist()
 values3 = df3.values.tolist()
 
-# Function to move the circle on the canvas
+# Fonction pour déplacer le cercle sur le canevas
 def move_circle(row, col):
-    x = col * CASE_SIZE + CASE_SIZE // 2 + BORDER_SIZE  # Center of the square in x
-    y = row * CASE_SIZE + CASE_SIZE // 2 + BORDER_SIZE  # Center of the square in y
+    x = col * CASE_SIZE + CASE_SIZE // 2 + BORDER_SIZE  # Centre de la case en x
+    y = row * CASE_SIZE + CASE_SIZE // 2 + BORDER_SIZE  # Centre de la case en y
     offset = CIRCLE_SIZE // 2
     canvas.coords(circle_id, x - offset, y - offset, x + offset, y + offset)
 
-# Function to convert a decimal number to binary
+# Fonction pour convertir un nombre décimal en binaire
 def convertir_en_binaire(nombre_decimal):
-    # Check that the number is in the range 0 to 4003
+    # Vérifier que le nombre est dans la plage de 0 à 4003
     if nombre_decimal < 0 or nombre_decimal > 4003:
         return "Le code à un soucis, le nombre doit être compris entre 0 et 4500."
 
-    # If number is 0, return "0" directly
+    # Si le nombre est 0, retourner directement "0"
     if nombre_decimal == 0:
         return "0"
 
-    # Variable to store binary result
+    # Variable pour stocker le résultat binaire
     resultat_binaire = ""
 
-    # Loop to convert decimal number to binary
+    # Boucle pour convertir le nombre décimal en binaire
     while nombre_decimal > 0:
-        bit = nombre_decimal % 2  # Get the least significant bit
-        resultat_binaire = str(bit) + resultat_binaire  # Add bit to left of result
-        nombre_decimal = nombre_decimal // 2  # Divide decimal number by 2
+        bit = nombre_decimal % 2  # Obtenir le bit de poids faible
+        resultat_binaire = str(bit) + resultat_binaire  # Ajouter le bit à gauche du résultat
+        nombre_decimal = nombre_decimal // 2  # Diviser le nombre décimal par 2
         nombre_decimal = int(nombre_decimal)
 
     return resultat_binaire
 
-# Function to capture standard output
+# Fonction pour capturer la sortie standard
 class Capturing(list):
     def __enter__(self):
         self._stdout = sys.stdout
@@ -999,15 +1000,15 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 
-# Function called when a box is clicked
+# Fonction appelée lorsqu'on clique sur une case
 def on_click(event):
     col = (event.x - BORDER_SIZE) // CASE_SIZE
     row = (event.y - BORDER_SIZE) // CASE_SIZE
-    if 0 <= col < GRID_SIZE and 0 <= row < GRID_SIZE:  # Checks whether click is within grid limits
-        # Used to encapsulate outgoing data on standard output in order to capture it in a file
+    if 0 <= col < GRID_SIZE and 0 <= row < GRID_SIZE:  # Vérifie si le clic est dans les limites de la grille
+        # sert à encapsuler les données sortantes sur la sortie standard afin de les capturer dans un fichier
         with Capturing() as output:
             print(f"La case à été cliquée en ligne {row}, et colonne {col}\n")
-            # Displays the corresponding values of the three sheets
+            # Affiche les valeurs correspondantes des trois feuilles
             value1 = values1[row][col]
             value2 = values2[row][col]
             value3 = values3[row][col]
@@ -1015,7 +1016,7 @@ def on_click(event):
             print(f"Capteur1: {value1}")
             print(f"Capteur2: {value2}")
             print(f"Capteur3: {value3}\n")
-            # Simulates button-press effect
+            # Simule l'effet de bouton enfoncé
             canvas.itemconfig(grid_ids[row][col], fill='darkgray')
             root.after(100, lambda: canvas.itemconfig(grid_ids[row][col], fill='gray'))
             move_circle(row, col)
@@ -1036,60 +1037,60 @@ def on_click(event):
             binaire = convertir_en_binaire(nombre_decimal)
             print(f"Capteur 3, valeur de l'attenuation en binaire : {binaire}:11\n\n")
 
-            # the . problems between the digits were linked to the fact that the code was given in string at the
-            # conversion subroutine, and the .0 problem at the end was due to a float on the value rendered here as value1, value2, etc.
-            # So I transformed these values into int() and there you have it :)
+            #les problèmes de . entre les chiffre étaient liés au fait que le code était donné en string au niveau
+            # du sous programme de convertion, et le soucis du .0 à la fin était du à un float sur la valeur rendu ici en value1, value2, etc.
+            # j'ai donc transformé ces valeurs en int() et le tour à été joué :)
 
         sauvegarder_json(output)
 
 def sauvegarder_json(output):
-
-    # Function for editing sensor information and sending it to the site.
-    # Sensors are identified by their binary numbers: 01, 10 and 11 at the end of the lines.
-
+    """
+    Fonction pour éditer les informations des capteurs et les envoyer sur le site, ils sont identifiés avec leurs
+    numéros en binaire : 01, 10 et 11 à la fin des lignes.
+    """
     capteurs = {}
     for ligne in output:
         if "Capteur" in ligne and "binaire" in ligne:
 
-            client = mqtt.Client() # Create a client instance
-            client.username_pw_set("CaptS1", "a") # Connection ID and CDM
-            client.connect("192.168.102.250", 1883)
-            #Split the line into parts at each ":".
+            client = mqtt.Client() # Créer une instance du client
+            client.username_pw_set("CaptS1", "a") # ID et MDP de connexion
+            client.connect("192.168.102.200", 1883)
+            #On vient couper la ligne en tronçons à chaque ":"
             parts = ligne.split(":")
             capteur = parts[0].split(",")[0].strip()
             valeur = parts[1].strip()
             numero = parts[2].strip()
             capteurs[capteur] = valeur
 
-            # create a topic for each sensor
+            #on viens créer un topic pour chaque capteur
             topic = "sae24/E102/son/"+capteur
 
-            #the data will be formatted as follows: the binary number of the sensor in front of the value.
+            #la donnée formatée le sera de la sorte : le nombre binaire du capteur devant la valeur.
             data = {
                 "valeur": numero+capteurs[capteur]
             }
 
-            # publish the topic and disconnect at the end
+            #on publish le topic et on se déconnecte à la fin
             client.publish(topic, json.dumps(data))
             client.disconnect()
 
-# Function to reset the grid
+# Fonction pour réinitialiser la grille
 def reset_grid():
     for row in range(GRID_SIZE):
         for col in range(GRID_SIZE):
             canvas.itemconfig(grid_ids[row][col], fill='white')
-    # Reset circle position
+    # Réinitialise la position du cercle
     move_circle(0, 0)
 
-# Initialize main window
+# Initialisation de la fenêtre principale
 root = tk.Tk()
 root.title("16x16 Grid Interface")
 
-# Create canvas to display boxes and circle
+# Crée un canevas pour afficher les cases et le cercle
 canvas = tk.Canvas(root, width=GRID_SIZE * CASE_SIZE + 2 * BORDER_SIZE, height=GRID_SIZE * CASE_SIZE + 2 * BORDER_SIZE)
 canvas.pack()
 
-# Draw boxes on canvas
+# Dessine les cases sur le canevas
 grid_ids = []
 for row in range(GRID_SIZE):
     row_ids = []
@@ -1102,15 +1103,15 @@ for row in range(GRID_SIZE):
         row_ids.append(rect_id)
     grid_ids.append(row_ids)
 
-# Draws a red circle initially in the top left corner
+# Dessine un cercle rouge initialement au coin supérieur gauche
 circle_id = canvas.create_oval(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE + CIRCLE_SIZE, BORDER_SIZE + CIRCLE_SIZE, fill='red')
 
-# Bind mouse-click event to on_click function
+# Lier l'événement de clic de souris à la fonction on_click
 canvas.bind("<Button-1>", on_click)
 
-# Create a button to reset the grid
+# Crée un bouton pour réinitialiser la grille
 reset_button = tk.Button(root, text="Réinitialiser la grille", command=reset_grid)
 reset_button.pack()
 
-# Starts GUI main loop
+# Lance la boucle principale de l'interface graphique
 root.mainloop()

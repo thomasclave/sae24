@@ -1,8 +1,0 @@
-A FAIRE
-
-récupérer les données
-dé-binairiser
-diviser par 1000
-utiliser le fichier "matrices_tournees"
-comparer les données aux cases
-chercher la case commune
