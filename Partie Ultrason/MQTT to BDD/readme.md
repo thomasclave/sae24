@@ -1,70 +1,113 @@
-# Explication du code 
+# Explication du code
 
-## utilisation des bili
+## Utilisation des Bibliothèques
 
-`` paho.mqtt.client`` : Bibliothèque pour la communication MQTT.
+- `paho.mqtt.client` : Bibliothèque pour la communication MQTT.
+- `json` : Module pour la manipulation des données JSON.
+- `time` : Module pour les fonctions liées au temps.
+- `mysql.connector` : Bibliothèque pour interagir avec une base de données MySQL.
+- `datetime` : Module pour obtenir la date et l'heure actuelles.
+- `collections.deque` : Classe pour créer une liste à double extrémité sous cette forme : [x, x].
 
+## Variable pour Stocker l'Historique des Zones
 
-``json`` : Module pour la manipulation des données JSON.
+```python
+zone_history = deque(maxlen=2)
+```
 
+`maxlen` permet de définir la taille maximale de cette liste à 2 éléments. Ainsi, elle conservera seulement les deux dernières zones visitées.
 
-``time`` : Module pour les fonctions liées au temps.
+## Fonction pour Déterminer la Zone
 
+La fonction `determine_zone` prend deux paramètres : `capteur_id` et `capteur_value`. Elle utilise la liste `zone_history` qui est une variable globale, ce qui signifie que lorsqu'elle est modifiée, cette modification est visible même en dehors de cette fonction.
 
-``mysql.connector`` : Bibliothèque pour interagir avec une base de données MySQL.
+Au début de cette fonction, aucune zone n'est définie (`zone = None`). Ensuite, nous testons si la valeur d'un des capteurs est `1`. Si c'est le cas, nous déterminons quel capteur a changé d'état et nous attribuons la zone correspondante.
 
+### La Condition :
 
-`` datetime ``: Module pour obtenir la date et l'heure actuelles.
+```python
+if zone is not None:
+    zone_history.append(zone)
+```
 
+- **`if zone is not None`** :
+  - Vérifie si une zone a été définie. Si la zone est `None`, cela signifie qu'aucune détection valide n'a été faite et le reste du code ne s'exécute pas.
 
-``collections.deque`` : Classe pour créer une liste à double extrémité sous cette forme : [x, x] 
+- **`zone_history.append(zone)`** :
+  - Si une zone est définie, elle est ajoutée à la fin de `zone_history`. Si `zone_history` a déjà atteint sa taille maximale de 2, l'élément le plus ancien est automatiquement supprimé pour faire de la place au nouvel élément.
 
-## Variable pour stocker l'historique des zones 
+### Vérification du Demi-Tour :
 
-``zone_history = deque(maxlen=2)``
+```python
+if len(zone_history) == 2 and zone_history[0] == zone_history[1]:
+    print(f"La personne est revenue dans la zone précédente: Zone {zone - 2}")
+    send_to_db(zone - 2)
+    zone_history.clear()
+else:
+    print(f"La personne est dans la zone {zone}")
+    send_to_db(zone)
+```
 
-maxlen permet de définir la taille de cette liste à max 2
+- **`if len(zone_history) == 2 and zone_history[0] == zone_history[1]`** :
+  - Vérifie que `zone_history` contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
 
-## fonction qui permet déterminer la zone 
+- **`print(f"La personne est revenue dans la zone précédente: Zone {zone - 2}")`** :
+  - Affiche un message indiquant que la personne est revenue dans la zone précédente.
 
-La fonction à deux paramètre qui sont capteur_id et capteur_value, puis on récupere la liste "zone_history" que c'est une vriable global que quand elle seras modiffier elle seras visible meme en dehors de cette fonction.
-On dit que aucune zone à étais définis au début de cette fonction, par la suite nous testons si la valeur d'un des capteurs est à 1 alors on teste quel est le capteur qui à varier  et on dit a quel zone la personne est passé avec le capteur qui vient de changer d'état.
+- **`send_to_db(zone - 2)`** :
+  - Enregistre dans la base de données la zone précédente en appelant `send_to_db` avec `zone - 2`.
 
-la condition :
+- **`zone_history.clear()`** :
+  - Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
 
+### Sinon
+
+- Si la personne n'a pas fait demi-tour, nous envoyons la valeur de la zone actuelle avec la fonction `send_to_db()`.
+
+### Gestion du Retour à la Valeur 0
+
+```python
+if capteur_value == "0":
+    print(f"{capteur_id} est revenu à 0, aucune mise à jour de la zone.")
+```
+
+- Cette condition vérifie si le capteur est revenu à la valeur `0`. Si c'est le cas, elle affiche dans l'invite de commande l'ID du capteur qui est revenu à `0`, et aucune mise à jour de la zone n'est effectuée.
+
+## Fonction Complète `determine_zone`
+
+```python
+def determine_zone(capteur_id, capteur_value):
+    global zone_history
+
+    # Déterminer la zone en fonction du capteur
+    zone = None
+    if capteur_value == "1":
+        if capteur_id == "capteur1":
+            zone = 3
+        elif capteur_id == "capteur2":
+            zone = 5
+        elif capteur_id == "capteur3":
+            zone = 7
 
     if zone is not None:
+        # Ajouter la nouvelle zone à l'historique
         zone_history.append(zone)
 
-``if zone is not None :``
+        # Vérifier si la personne a fait demi-tour
+        if len(zone_history) == 2 and zone_history[0] == zone_history[1]:
+            print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")
+            send_to_db(zone - 2)
+            zone_history.clear()  # Réinitialiser l'historique après détection de demi-tour
+        else:
+            print(f"La personne est dans la zone {zone}")
+            send_to_db(zone)
 
- - Vérifie si une zone a été définie. Si la zone est None, cela signifie qu'aucune détection valide n'a été faite et le reste du code ne s'exécute pas.
+    if capteur_value == "0":
+        print(f"{capteur_id} est revenu à 0, aucune mise à jour de la zone.")
+        # The sensor has returned to 0, no zone update.
+```
 
-``zone_history.append(zone) :``
-
-- Si une zone est définie, elle est ajoutée à la fin de zone_history. Si zone_history a déjà atteint sa taille maximale de 2, l'élément le plus ancien est supprimé pour faire de la place au nouvel élément.
-
-``if len(zone_history) == 2 and zone_history[0] == zone_history[1] ``: 
-- Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
-
-``print(f"La personne est revenue dans la zone précédente: Zone {zone - 2}")`` :
-- Affiche un message indiquant que la personne est revenue dans la zone précédente.
-
-``send_to_db(zone - 2)`` : 
-
-- Enregistre dans la base de données la zone précédente en appelant send_to_db avec zone - 2.
-
-``zone_history.clear() ``: 
-
-- Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
-
-
-Sinon 
-
-- la personne n'as pas fait demi tours alors on envoye la valeur de la zone avec la fonction ``send_to_db()``
-
-Il y a aussi une condition pout voir le retour du capteur a la veleur 0 et affiche dans l'invite de commande l'ID du capteur qui est revenu à 0.
-
+En résumé, cette fonction détermine la zone où se trouve une personne en fonction des données des capteurs, vérifie si la personne a fait demi-tour, et enregistre les informations pertinentes dans une base de données MySQL.
 ## Fonction pour Envoyer les Données à la Base de Données
 
 
