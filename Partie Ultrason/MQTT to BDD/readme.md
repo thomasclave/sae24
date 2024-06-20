@@ -86,14 +86,14 @@ Cette fonction permet de définir la position initiale de la zone ou la personne
     def on_message(client, userdata, msg):
         topic = msg.topic
         payload = str(msg.payload.decode("utf-8"))
-        print(f"Message reçu sur le sujet {topic} : {payload}")
+        print(f"Message reçu sur le topic {topic} : {payload}")
         try:
             data = json.loads(payload)
             capteur_id = data['id']
             capteur_value = data['data']
             determine_zone(capteur_id, capteur_value)
         except json.JSONDecodeError:
-            print(f"Erreur de décodage JSON pour le message sur le sujet {topic} : {payload}")
+            print(f"Erreur de décodage JSON pour le message sur le topic {topic} : {payload}")
 
 ### Fonction on_connect
 
