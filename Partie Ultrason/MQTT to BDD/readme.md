@@ -94,3 +94,50 @@ Cette fonction permet de définir la position initiale de la zone ou la personne
             determine_zone(capteur_id, capteur_value)
         except json.JSONDecodeError:
             print(f"Erreur de décodage JSON pour le message sur le sujet {topic} : {payload}")
+
+### Fonction on_connect
+
+La fonction ``on_connect`` est déclenchée lorsque le client MQTT se connecte avec succès au broker MQTT. Elle prend les paramètres suivants :
+
+client : L'instance du client MQTT.
+
+
+userdata : Les données définies par l'utilisateur, non utilisées dans ce contexte.
+
+
+flags : Les drapeaux de connexion, non utilisés ici.
+
+
+rc : Le code de résultat de la connexion, où 0 signifie une connexion réussie.
+
+
+Lorsqu'une connexion est établie avec succès, la fonction :
+
+- Affiche un message confirmant la connexion réussie avec le code de résultat.
+- Abonne le client au sujet sae24/+/ultra pour qu'il puisse recevoir les messages publiés sur ce sujet.
+
+
+### Fonction on_message
+
+La fonction ``on_message`` est déclenchée chaque fois qu'un message est reçu sur un sujet auquel le client est abonné. Elle prend les paramètres suivants :
+
+client : L'instance du client MQTT.
+
+
+userdata : Les données définies par l'utilisateur, non utilisées dans ce contexte.
+
+
+msg : Le message reçu, contenant le sujet et le contenu (payload).
+
+
+Lorsqu'un message est reçu, la fonction :
+
+- Extrait le sujet du message et le contenu (payload), puis décode le payload en UTF-8 pour le rendre lisible.
+- Affiche le sujet et le payload du message reçu.
+- Tente de convertir le payload en objet JSON. Si la conversion réussit :
+- Extrait l'ID du capteur (capteur_id) et la valeur du capteur (capteur_value) des données JSON.
+- Appelle la fonction determine_zone avec capteur_id et capteur_value pour vérifier et mettre à jour la zone.
+- Si le payload ne peut pas être décodé en JSON, affiche un message d'erreur indiquant que le décodage JSON a échoué.
+
+
+En résumé, ces fonctions gèrent la connexion au broker MQTT et le traitement des messages reçus, en s'abonnant aux sujets pertinents et en manipulant les données des capteurs pour déterminer les zones et détecter les retours en arrière.
