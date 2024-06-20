@@ -231,8 +231,6 @@ except KeyboardInterrupt:
     client.disconnect()
 ```
 
-#### Explication en Détails
-
 1. **Envoi de la Position Initiale** :
 
    ```python
