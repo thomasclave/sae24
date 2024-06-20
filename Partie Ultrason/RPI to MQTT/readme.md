@@ -72,16 +72,16 @@ Remarque: Si le serveur MQTT s’arrête en cours de route ou n'est pas disponib
 
 
 # Résolution de problèmes
-![screenshot](Trop_erreur.png)
 ## Trop d'erreurs de mesures
 Trop d'erreurs de mesures sont renvoyés, ce qui faire que la fonction de filtrage renvoie toujours 0 (affichant Distance: 0cm).
+![screenshot](img/Trop_erreur.png)
 ### Solution
 Pour parer ce problème, une nouvelle mesures est prise dès que la valeur 65535 est détectée.
 
 ## Modification des conditions de la boucle for, en cours de fonctionner
-![screenshot](PB_boucle-for1.png)
-![screenshot](PB_boucle-for2.png)
 Visiblement, quand la boucle for s’exécute, elle ne regarde qu’une fois sa condition de fonctionnement. Il est donc inutile et sans effet de vouloir modifier cette condition, puisque seulement le contenu de la boucle est répété.
+![screenshot](img/PB_boucle-for1.png)
+![screenshot](img/PB_boucle-for2.png)
 
 ### Solution
 Utilisation d'une boucle while, qui elle relie sa condition de fonctionnement
