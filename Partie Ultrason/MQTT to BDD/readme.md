@@ -8,3 +8,9 @@ time : Module pour les fonctions liées au temps.
 mysql.connector : Bibliothèque pour interagir avec une base de données MySQL.
 datetime : Module pour obtenir la date et l'heure actuelles.
 collections.deque : Classe pour créer une liste à double extrémité sous cette forme : [x, x] 
+
+# Variable pour stocker l'historique des zones 
+
+zone_history = deque(maxlen=2)
+
+maxlen permet de définir la taille de cette liste à max 2
