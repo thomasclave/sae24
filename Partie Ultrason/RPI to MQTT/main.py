@@ -5,33 +5,33 @@ import paho.mqtt.client as mqtt
 import time
 import sys
 
-## Variables & fonctions ##
-led = 3 # Connexion de la LED sur la pin D3
-pinMode(led,"OUTPUT") # parametrer la LED comme sortie
-digitalWrite(led,0) # Eteindre la LED
-grovepi.set_bus("RPI_1") # parametrer le bus I2C pour utiliser le materiel
-ultrasonic = 2 # Connexion du capteur ultrason sur la pin D4
+## Variables & functions ##
+led = 3 # Connecting the LED to pin D3
+pinMode(led,"OUTPUT") # set the LED as an output
+digitalWrite(led,0) # Switching off the LED
+grovepi.set_bus("RPI_1") # Set up the I2C bus to use the hardware
+ultrasonic = 2 # Connecting the ultrasonic sensor to pin D4
 seuil = 0
 
-# Attacher les fonctions
-client = mqtt.Client() # Créer une instance du client
-client.username_pw_set("CaptU1", "a") # ID et MDP de connexion
+# Attach functions
+client = mqtt.Client() # Create an instance of the client
+client.username_pw_set("CaptU1", "a") # login and password
 
 def mqtt_connect():
-    digitalWrite(led,1) # Allumer la LED
+    digitalWrite(led,1) # Switch on LED
     try:
         client.connect("192.168.102.250", 1883)
     except:
         print("Erreur de connexion au serveur")
         sys.exit()
-    digitalWrite(led,0) # Eteindre la LED
+    digitalWrite(led,0) # Switching off the LED
     print("Connexion au serveur MQTT réussie")
 def mqtt_push(message):
     global last_mqtt_msg
     topic = "sae24/E102/ultra"
     print("Publication du message " + str(message))
     try:
-        client.publish(topic, json.dumps(message))
+        client.publish(topic, json.dumps(message)) # sends the message to the MQTT server
     except:
         print("Erreur de l'envoie du message au serveur MQTT")
         mqtt_connect()
@@ -40,24 +40,24 @@ def filtred_value():
     mesures = []
     i = 0
     while i < 3:
-        distance = grovepi.ultrasonicRead(ultrasonic) # prise de ma mesure
+        distance = grovepi.ultrasonicRead(ultrasonic) # take my measurement
         if distance != 65535:
-            mesures.append(distance) # enregistrement de la masure dans le tableau
+            mesures.append(distance) # recording the masure in the table
             i = i+1
-        time.sleep(0.2) # ne pas surcharger le bus I2C
+        time.sleep(0.2) # do not overload the I2C bus
     if max(mesures) - min(mesures) < 4 and max(mesures) < 500:
-        # la mesure est correcte
+        # the measurement is correct
         return round(sum(mesures) / len(mesures))
     else:
-        # la mesure est instable
+        # the measurement is unstable
         return 0
 
 
-### Programme principal ###
+### Main programmel ###
 mqtt_connect()
 
-## Déterminer la valeur du seuil ##
-digitalWrite(led,1) # Allumer la LED
+## Determining the threshold value ##
+digitalWrite(led,1) # Switch on LED
 seuil = 0
 while seuil <= 10:
     seuil = filtred_value() - 5
@@ -68,7 +68,7 @@ data = {
     "data": "0"
 }
 mqtt_push(data)
-digitalWrite(led,0) # Eteindre la LED
+digitalWrite(led,0) # Switching off the LED
 
 
 while True:
@@ -76,21 +76,21 @@ while True:
     print("Distance: " + str(distance) + "cm")
 
     if distance < seuil and distance != 0 and last_mqtt_msg.get("data") != "1":
-        # nouvelle obstacle détecté
+        # new obstacle detected
         data = {
             "id": "capteur1",
             "data": "1"
         }
         mqtt_push(data)
-        digitalWrite(led,1) # Allumer la LED
+        digitalWrite(led,1) # Switch on LED
     elif distance > seuil and last_mqtt_msg.get("data") != "0":
-        # plus d'obstacle
+        # no more obstacles
         data = {
             "id": "capteur1",
             "data": "0"
         }
         mqtt_push(data)
-        digitalWrite(led,0) # Eteindre la LED
+        digitalWrite(led,0) # Switching off the LED
 
 client.disconnect()
-### Fin Programme principal ###
+### End Main programme ###
