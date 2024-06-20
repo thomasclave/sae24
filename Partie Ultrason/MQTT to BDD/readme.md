@@ -67,7 +67,149 @@ Il y a aussi une condition pout voir le retour du capteur a la veleur 0 et affic
 
 ## Fonction pour Envoyer les Données à la Base de Données
 
-``send_to_db()`` Nous permet de pouvoir envoyer la valeur de X a la base de donnée. Tout d'abort on définis la position y à 1 car on de bouge pas sur l'axe y.
+
+La fonction `send_to_db` insère les données relatives à la zone détectée dans une base de données MySQL. Voici le code suivi d'une explication détaillée ligne par ligne :
+
+```python
+def send_to_db(x):
+    y = 1
+    try:
+        conn = mysql.connector.connect(
+            host="192.168.102.250",  
+            user="g31",             
+            password="passg31",      
+            database="sae24"
+        )
+        cursor = conn.cursor()
+        now = datetime.now()
+        date_str = now.strftime('%Y-%m-%d')
+        time_str = now.strftime('%H:%M:%S')
+        cursor.execute("""
+            INSERT INTO Data (X, Y, Date, Time, TypeCapt, NomSalle)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (x, y, date_str, time_str, "Ultrason", "E102"))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Données insérées : X={x}, Y={y}, Date={date_str}, Time={time_str}")
+    except mysql.connector.Error as err:
+        print(f"Erreur : {err}")
+```
+
+
+1. **Déclaration de la fonction** :
+
+   ```python
+   def send_to_db(x):
+   ```
+
+   - **def send_to_db(x)** : Cette ligne définit une fonction nommée `send_to_db` qui prend un argument `x`. Cet argument représente la coordonnée X de la zone détectée.
+
+2. **Initialisation de la coordonnée Y** :
+
+   ```python
+   y = 1
+   ```
+
+   - **y = 1** : Cette ligne initialise la coordonnée Y à 1. Dans ce contexte, Y est fixé à 1 car seule la coordonnée X varie pour représenter différentes zones.
+
+3. **Connexion à la base de données** :
+
+   ```python
+   try:
+       conn = mysql.connector.connect(
+           host="192.168.102.250",  
+           user="g31",              
+           password="passg31",      
+           database="sae24"
+       )
+   ```
+
+   - **try** : Cette ligne commence un bloc `try` pour gérer les exceptions potentielles qui peuvent survenir lors de la connexion à la base de données.
+   - **conn = mysql.connector.connect(...)** : Cette ligne établit une connexion à la base de données MySQL. Les paramètres de connexion sont :
+     - `host` : L'adresse IP du serveur de base de données.
+     - `user` : Le nom d'utilisateur pour se connecter à la base de données.
+     - `password` : Le mot de passe associé au nom d'utilisateur.
+     - `database` : Le nom de la base de données à utiliser.
+
+4. **Création d'un curseur** :
+
+   ```python
+   cursor = conn.cursor()
+   ```
+
+   - **cursor = conn.cursor()** : Cette ligne crée un curseur à partir de la connexion. Un curseur permet d'exécuter des commandes SQL et de récupérer les résultats.
+
+5. **Obtention de la date et de l'heure actuelles** :
+
+   ```python
+   now = datetime.now()
+   date_str = now.strftime('%Y-%m-%d')
+   time_str = now.strftime('%H:%M:%S')
+   ```
+
+   - **now = datetime.now()** : Cette ligne obtient la date et l'heure actuelles.
+   - **date_str = now.strftime('%Y-%m-%d')** : Cette ligne formate la date actuelle en une chaîne de caractères au format `YYYY-MM-DD`.
+   - **time_str = now.strftime('%H:%M:%S')** : Cette ligne formate l'heure actuelle en une chaîne de caractères au format `HH:MM:SS`.
+
+6. **Exécution de la commande SQL pour insérer les données** :
+
+   ```python
+   cursor.execute("""
+       INSERT INTO Data (X, Y, Date, Time, TypeCapt, NomSalle)
+       VALUES (%s, %s, %s, %s, %s, %s)
+   """, (x, y, date_str, time_str, "Ultrason", "E102"))
+   ```
+
+   - **cursor.execute(...)** : Cette ligne exécute une commande SQL pour insérer les données dans la table `Data`. La commande utilise des paramètres (%s) pour insérer les valeurs dynamiques fournies dans le deuxième argument :
+     - `x` : La coordonnée X de la zone détectée.
+     - `y` : La coordonnée Y, fixée à 1.
+     - `date_str` : La date actuelle.
+     - `time_str` : L'heure actuelle.
+     - `"Ultrason"` : Le type de capteur.
+     - `"E102"` : Le nom de la salle.
+
+7. **Validation de la transaction** :
+
+   ```python
+   conn.commit()
+   ```
+
+   - **conn.commit()** : Cette ligne valide la transaction, confirmant que les modifications apportées à la base de données (insertion des données) sont permanentes.
+
+8. **Fermeture du curseur et de la connexion** :
+
+   ```python
+   cursor.close()
+   conn.close()
+   ```
+
+   - **cursor.close()** : Cette ligne ferme le curseur, libérant ainsi les ressources associées.
+   - **conn.close()** : Cette ligne ferme la connexion à la base de données, libérant les ressources associées.
+
+9. **Affichage de la confirmation** :
+
+   ```python
+   print(f"Données insérées : X={x}, Y={y}, Date={date_str}, Time={time_str}")
+   ```
+
+   - **print(f"Données insérées : X={x}, Y={y}, Date={date_str}, Time={time_str}")** : Cette ligne affiche un message confirmant que les données ont été insérées avec succès, y compris les valeurs de X, Y, la date et l'heure.
+
+10. **Gestion des erreurs** :
+
+    ```python
+    except mysql.connector.Error as err:
+        print(f"Erreur : {err}")
+    ```
+
+    - **except mysql.connector.Error as err** : Ce bloc intercepte les exceptions liées à MySQL qui peuvent survenir pendant l'exécution du code dans le bloc `try`.
+    - **print(f"Erreur : {err}")** : Si une erreur se produit, cette ligne affiche un message d'erreur détaillant le problème.
+
+### En Résumé
+
+- La fonction `send_to_db` insère des données dans une base de données MySQL en établissant une connexion, en préparant une commande SQL d'insertion, en exécutant la commande et en validant la transaction.
+- La date et l'heure actuelles sont également enregistrées avec les données.
+- Le code gère les exceptions et affiche des messages de confirmation ou d'erreur en fonction du résultat de l'opération.
 
 ## Fonction pour Envoyer la Position Initiale
 
