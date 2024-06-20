@@ -36,7 +36,7 @@ if zone is not None:
 - **`zone_history.append(zone)`** :
   - Si une zone est définie, elle est ajoutée à la fin de `zone_history`. Si `zone_history` a déjà atteint sa taille maximale de 2, l'élément le plus ancien est automatiquement supprimé pour faire de la place au nouvel élément.
 
-(``appendleft`` permet d'ajouter un élément au début de la deque)
+(``appendleft`` permet d'ajouter un élément au début de la deque(liste))
 
 ### Vérification du Demi-Tour :
 
