@@ -45,8 +45,7 @@ def filtred_value():
             mesures.append(distance) # enregistrement de la masure dans le tableau
             i = i+1
         time.sleep(0.2) # ne pas surcharger le bus I2C
-    print(str(mesures))
-    if max(mesures) - min(mesures) < 4 and max(mesures) < 490:
+    if max(mesures) - min(mesures) < 4 and max(mesures) < 500:
         # la mesure est correcte
         return round(sum(mesures) / len(mesures))
     else:

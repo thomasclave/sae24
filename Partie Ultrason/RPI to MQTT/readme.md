@@ -2,7 +2,7 @@
 *Optimiser le programme, nouveau fonctionnement, simplification des communications avec le serveur MQTT*
 
 Remarque: Pour chaque Raspberry, nous copions ce programme et nous modifions le code pour les informations suivantes correspondes aux capteurs:
-- Identifiant de connexion au serveur MQTT: CaptU1, CaptU2, CaptU3
+- Identifiant de connexion au serveur MQTT: CaptU1 (CaptU2, CaptU3 non fonctionnel)
 - Le champ id du message MQTT: capteur1, capteur2, capteur3
 
 Serveur: 192.168.102.250
@@ -24,7 +24,8 @@ pip3 install typing_extensions
 
 # Utilisation
 1. Allumer le serveur MQTT et le rendre disponible sur le réseau
-2. Allimenter les Raspberry (lancement automatique du programme)
+2. Mettre un obstacle, pour faire office de seuil, et pour rendre les mesures plus stables. !! Il est maintenant possible de ne pas mettre d'obstacle !!
+3. Allimenter les Raspberry (lancement automatique du programme)
 Remarque: Si le serveur MQTT s'arrete en cours de route ou n'est pas disponible lors du lancement du programme, alors le programme s'arretera
 
 ## Informations globales et objectifs du programme
@@ -48,8 +49,8 @@ Remarque: Si le serveur MQTT s'arrete en cours de route ou n'est pas disponible 
         - si probleme (code erreur different de 0) alors lancer la fonction mqtt_connect
     Fonction filtred_value:
         Objectif: Filtrer les erreurs de mesures
-        - Prendre 3 mesures à la suite
-        - mesures l'écart entre les 3 mesures: si elles sont à plus de 4 unités de différence alors fausse valeur, donc ne rien remonter (0)+allumer LED, sinon remonter la valeur moyenne entière+eteindre la LED. De plus, la mesure doit <490
+        - Prendre 3 mesures à la suite, tout en excluant la valeur 65535 (refaire la mesure dans ce cas)
+        - mesures l'écart entre les 3 mesures: si elles sont à plus de 4 unités de différence alors fausse valeur, donc ne rien remonter (0)+allumer LED, sinon remonter la valeur moyenne entière+eteindre la LED. De plus, la mesure doit <500
     
 
 1. Connexion au serveur MQTT
@@ -81,3 +82,5 @@ solution: boucle while
 
 # Amélioration
 - Faire que le programme boucle, au lieu de s'arreter, lorsque le serveur MQTT n'est plus disponible
+
+-> en résolvant l'erreur du 65535, j'ai vu qu'il été possible de se soulager de la contrainte de devoir toujours mettre un obstacle au démarrage du programme. Pour cela il suffie juste d'accèpter les valeurs comprises entre 490 et 500 (qui correspond à la mesure max), en passant le seuil de 490 à 500.
