@@ -114,12 +114,12 @@ rc : Le code de résultat de la connexion, où 0 signifie une connexion réussie
 Lorsqu'une connexion est établie avec succès, la fonction :
 
 - Affiche un message confirmant la connexion réussie avec le code de résultat.
-- Abonne le client au sujet sae24/+/ultra pour qu'il puisse recevoir les messages publiés sur ce sujet.
+- Abonne le client à sae24/+/ultra pour qu'il puisse recevoir les messages publiés sur ce sujet.
 
 
 ### Fonction on_message
 
-La fonction ``on_message`` est déclenchée chaque fois qu'un message est reçu sur un sujet auquel le client est abonné. Elle prend les paramètres suivants :
+La fonction ``on_message`` est déclenchée chaque fois qu'un message est reçu sur un topic auquel le client est abonné. Elle prend les paramètres suivants :
 
 client : L'instance du client MQTT.
 
@@ -127,16 +127,20 @@ client : L'instance du client MQTT.
 userdata : Les données définies par l'utilisateur, non utilisées dans ce contexte.
 
 
-msg : Le message reçu, contenant le sujet et le contenu (payload).
+msg : Le message reçu, contenant le topic et le contenu (payload).
 
 
 Lorsqu'un message est reçu, la fonction :
 
-- Extrait le sujet du message et le contenu (payload), puis décode le payload en UTF-8 pour le rendre lisible.
-- Affiche le sujet et le payload du message reçu.
-- Tente de convertir le payload en objet JSON. Si la conversion réussit :
+- Extrait le topic du message et le contenu (payload), puis décode le payload en UTF-8 pour le rendre lisible.
+- Affiche le topic et le payload du message reçu.
+- Tente de convertir le payload en objet JSON. 
+
+Si la conversion réussit :
+
+
 - Extrait l'ID du capteur (capteur_id) et la valeur du capteur (capteur_value) des données JSON.
-- Appelle la fonction determine_zone avec capteur_id et capteur_value pour vérifier et mettre à jour la zone.
+- Appelle la fonction ``determine_zone`` avec ``capteur_id `` et ``capteur_value`` pour vérifier et mettre à jour la zone.
 - Si le payload ne peut pas être décodé en JSON, affiche un message d'erreur indiquant que le décodage JSON a échoué.
 
 
