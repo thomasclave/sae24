@@ -114,7 +114,7 @@ rc : Le code de résultat de la connexion, où 0 signifie une connexion réussie
 Lorsqu'une connexion est établie avec succès, la fonction :
 
 - Affiche un message confirmant la connexion réussie avec le code de résultat.
-- Abonne le client à sae24/+/ultra pour qu'il puisse recevoir les messages publiés sur ce sujet.
+- Abonne le client à sae24/+/ultra pour qu'il puisse recevoir les messages publiés sur ce topics.
 
 
 ### Fonction on_message
@@ -144,4 +144,71 @@ Si la conversion réussit :
 - Si le payload ne peut pas être décodé en JSON, affiche un message d'erreur indiquant que le décodage JSON a échoué.
 
 
-En résumé, ces fonctions gèrent la connexion au broker MQTT et le traitement des messages reçus, en s'abonnant aux sujets pertinents et en manipulant les données des capteurs pour déterminer les zones et détecter les retours en arrière.
+En résumé, ces fonctions gèrent la connexion au broker MQTT et le traitement des messages reçus, en s'abonnant aux topics pertinents et en manipulant les données des capteurs pour déterminer les zones et détecter les retours en arrière.
+
+### Configuration et Connexion du Client MQTT
+
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    broker_address = "192.168.102.250"
+    broker_port = 1883
+    username = "CaptU1"
+    password = "a"
+
+    client.username_pw_set(username, password)
+    client.connect(broker_address, broker_port, 60)
+
+Ce segment de code crée et configure un client MQTT pour se connecter à un broker MQTT, s'abonner à des topics, et traiter les messages reçus.
+
+1. **Création d'une instance de client MQTT** :
+
+   ```python
+   client = mqtt.Client()
+   ```
+
+   - Cette ligne crée une nouvelle instance de client MQTT en utilisant la bibliothèque Paho MQTT. Cette instance sera utilisée pour se connecter au broker MQTT, s'abonner à des topics, publier et recevoir des messages.
+
+2. **Assignation des fonctions de rappel** :
+
+   ```python
+   client.on_connect = on_connect
+   client.on_message = on_message
+   ```
+
+   - `client.on_connect = on_connect` : Cette ligne assigne la fonction `on_connect` comme fonction de rappel (callback) pour les événements de connexion. Cela signifie que la fonction `on_connect` sera appelée chaque fois que le client se connecte au broker MQTT.
+   - `client.on_message = on_message` : Cette ligne assigne la fonction `on_message` comme fonction de rappel pour les événements de réception de messages. La fonction `on_message` sera appelée chaque fois que le client reçoit un message sur un topic
+    auquel il est abonné.
+
+3. **Configuration de l'adresse du broker MQTT** :
+
+   ```python
+   broker_address = "192.168.102.250"
+   broker_port = 1883
+   username = "CaptU1"
+   password = "a"
+   ```
+
+   - `broker_address` : Cette variable stocke l'adresse IP du broker MQTT. Dans ce cas, le broker se trouve à l'adresse `192.168.102.250`.
+   - `broker_port` : Cette variable stocke le numéro de port sur lequel le broker MQTT écoute les connexions entrantes. Le port standard pour MQTT est `1883`.
+   - `username` : Cette variable stocke le nom d'utilisateur utilisé pour s'authentifier auprès du broker MQTT.
+   - `password` : Cette variable stocke le mot de passe associé au nom d'utilisateur pour s'authentifier auprès du broker MQTT.
+
+4. **Configuration des identifiants d'authentification** :
+
+   ```python
+   client.username_pw_set(username, password)
+   ```
+
+   - Cette ligne configure les identifiants d'authentification pour le client MQTT en utilisant les variables `username` et `password`. Cela permet au client de s'authentifier auprès du broker MQTT lors de la connexion.
+
+5. **Connexion au broker MQTT** :
+
+   ```python
+   client.connect(broker_address, broker_port, 60)
+   ```
+
+   - `client.connect(broker_address, broker_port, 60)` : Cette ligne initie une connexion au broker MQTT en utilisant l'adresse et le port spécifiés. Le dernier argument (`60`) est le délai d'attente (keepalive) en secondes. Il définit la fréquence à laquelle le client doit envoyer des messages de maintien de connexion au broker pour indiquer qu'il est toujours actif.
+
+En résumé, ce segment de code crée un client MQTT, configure les fonctions de rappel pour les événements de connexion et de réception de messages, définit les paramètres de connexion au broker MQTT, configure l'authentification et initie la connexion au broker MQTT. Cela permet au client de se connecter au broker, de s'abonner à des topics et de recevoir des messages.
