@@ -127,19 +127,19 @@ client : L'instance du client MQTT.
 userdata : Les données définies par l'utilisateur, non utilisées dans ce contexte.
 
 
-msg : Le message reçu, contenant le topic et le contenu (payload).
+msg : Le message reçu, contenant le topic et le contenu (``payload``).
 
 
 Lorsqu'un message est reçu, la fonction :
 
-- Extrait le topic du message et le contenu (payload), puis décode le payload en UTF-8 pour le rendre lisible.
+- Extrait le topic du message et le contenu (``payload``), puis décode le payload en UTF-8 pour le rendre lisible.
 - Affiche le topic et le payload du message reçu.
 - Tente de convertir le payload en objet JSON. 
 
 Si la conversion réussit :
 
 
-- Extrait l'ID du capteur (capteur_id) et la valeur du capteur (capteur_value) des données JSON.
+- Extrait l'ID du capteur (``capteur_id``) et la valeur du capteur (``capteur_value``) des données JSON.
 - Appelle la fonction ``determine_zone`` avec ``capteur_id `` et ``capteur_value`` pour vérifier et mettre à jour la zone.
 - Si le payload ne peut pas être décodé en JSON, affiche un message d'erreur indiquant que le décodage JSON a échoué.
 
