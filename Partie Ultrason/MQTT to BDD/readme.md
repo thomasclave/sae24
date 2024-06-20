@@ -217,7 +217,7 @@ def send_to_db(x):
     
 - Les triple guillemets (``"""..."""``) permettent de créer des chaînes de texte sur plusieurs lignes. 
 - Les ``%s`` sont des placeholders (espaces réservés) utilisés pour insérer des valeurs dans une requête SQL de manière sécurisée. En utilisant des placeholders, on évite les attaques par injection SQL.
-Les valeurs réelles sont passées dans un tuple comme deuxième argument de ``execute()``. Le curseur remplace les placeholders par les valeurs correspondantes dans le tuple.
+Les valeurs réelles sont passées dans un tuple (permet de créer une collection ordonnée de plusieurs éléments) comme deuxième argument de ``execute()``. Le curseur remplace les placeholders par les valeurs correspondantes dans le tuple.
 
 7. **Validation de la transaction** :
 
@@ -302,6 +302,30 @@ flags : Les drapeaux de connexion, non utilisés ici.
 
 rc : Le code de résultat de la connexion, où 0 signifie une connexion réussie.
 
+
+#### Explication plus aprofondie des paramètre ``flag`` et ``rc``
+
+``rc`` (Return Code) : 
+- Indique le résultat de la tentative de connexion au broker MQTT. Il permet de diagnostiquer les problèmes de connexion grâce à des codes de retour spécifiques.
+
+##### Voici les valeurs possibles pour rc et leur signification :
+
+- 0 : Connexion acceptée
+    - La connexion au broker MQTT a été établie avec succès.
+- 1 : Connexion refusée - version de protocole incorrecte
+    - La version du protocole MQTT utilisée par le client n'est pas supportée par le broker.
+- 2 : Connexion refusée - identifiant de client incorrect
+    - L'identifiant du client est incorrect ou mal formaté.
+- 3 : Connexion refusée - serveur indisponible
+    - Le serveur MQTT n'est pas disponible.
+- 4 : Connexion refusée - nom d'utilisateur ou mot de passe incorrect
+    - Le nom d'utilisateur ou le mot de passe fourni est incorrect.
+- 5 : Connexion refusée - non autorisé
+    - Le client n'est pas autorisé à se connecter au broker MQTT.
+
+
+``flags ``:
+- Un dictionnaire contenant des informations sur l'état de la connexion, principalement utilisé pour gérer les sessions persistantes. Le drapeau session present est particulièrement utile pour savoir si une session précédente est encore présente sur le broker.
 
 Lorsqu'une connexion est établie avec succès, la fonction :
 
