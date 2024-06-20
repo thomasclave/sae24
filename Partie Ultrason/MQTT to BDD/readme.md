@@ -73,7 +73,7 @@ if capteur_value == "0":
 
 - Cette condition vérifie si le capteur est revenu à la valeur `0`. Si c'est le cas, elle affiche dans l'invite de commande l'ID du capteur qui est revenu à `0`, et aucune mise à jour de la zone n'est effectuée.
 
-## Fonction Complète `determine_zone`
+### Fonction Complète `determine_zone`
 
 ```python
 def determine_zone(capteur_id, capteur_value):
@@ -108,6 +108,8 @@ def determine_zone(capteur_id, capteur_value):
 ```
 
 En résumé, cette fonction détermine la zone où se trouve une personne en fonction des données des capteurs, vérifie si la personne a fait demi-tour, et enregistre les informations pertinentes dans une base de données MySQL.
+
+
 ## Fonction pour Envoyer les Données à la Base de Données
 
 
