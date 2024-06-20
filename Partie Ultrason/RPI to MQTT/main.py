@@ -38,10 +38,14 @@ def mqtt_push(message):
     last_mqtt_msg = message
 def filtred_value():
     mesures = []
-    for i in range(3):
-        mesures.append(grovepi.ultrasonicRead(ultrasonic)) # récuperer la distance mesurée
+    i = 0
+    while i < 3:
+        distance = grovepi.ultrasonicRead(ultrasonic) # prise de ma mesure
+        if distance != 65535:
+            mesures.append(distance) # enregistrement de la masure dans le tableau
+            i = i+1
         time.sleep(0.2) # ne pas surcharger le bus I2C
-    if max(mesures) - min(mesures) < 4 and max(mesures) < 490:
+    if max(mesures) - min(mesures) < 4 and max(mesures) < 500:
         # la mesure est correcte
         return round(sum(mesures) / len(mesures))
     else:
