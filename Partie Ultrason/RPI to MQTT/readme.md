@@ -28,6 +28,9 @@ pip3 install typing_extensions
 3. Allimenter les Raspberry (lancement automatique du programme)
 Remarque: Si le serveur MQTT s'arrete en cours de route ou n'est pas disponible lors du lancement du programme, alors le programme s'arretera
 
+-> Infos: Si le serveur MQTT ne fonctione pas ou plus, alors il faut relancer les RPI
+
+
 ## Informations globales et objectifs du programme
 - Récupérations des mesures de distances toutes les 200 millisecondes
 - Filtrer les mesures pour n'avoir que les vraies mesures (pas 496, 497, 65535...)
@@ -79,8 +82,10 @@ Pour parrer ce problème, une nouvelles mesures sera prise dès que la valeur 65
 ![screenshot](PB_boucle-for2.png)
 solution: boucle while
 
+-> en résolvant l'erreur du 65535, j'ai vu qu'il été possible de se soulager de la contrainte de devoir toujours mettre un obstacle au démarrage du programme. Pour cela il suffie juste d'accèpter les valeurs comprises entre 490 et 500 (qui correspond à la mesure max), en passant le seuil de 490 à 500.
+
+
+
 
 # Amélioration
-- Faire que le programme boucle, au lieu de s'arreter, lorsque le serveur MQTT n'est plus disponible
-
--> en résolvant l'erreur du 65535, j'ai vu qu'il été possible de se soulager de la contrainte de devoir toujours mettre un obstacle au démarrage du programme. Pour cela il suffie juste d'accèpter les valeurs comprises entre 490 et 500 (qui correspond à la mesure max), en passant le seuil de 490 à 500.
+- Lorsque le serveur MQTT n'est plus disponible: Faire que le programme boucle, au lieu de s'arreter directement, oligant à reboot les RPI
