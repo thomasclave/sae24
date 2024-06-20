@@ -212,3 +212,72 @@ Ce segment de code crée et configure un client MQTT pour se connecter à un bro
    - `client.connect(broker_address, broker_port, 60)` : Cette ligne initie une connexion au broker MQTT en utilisant l'adresse et le port spécifiés. Le dernier argument (`60`) est le délai d'attente (keepalive) en secondes. Il définit la fréquence à laquelle le client doit envoyer des messages de maintien de connexion au broker pour indiquer qu'il est toujours actif.
 
 En résumé, ce segment de code crée un client MQTT, configure les fonctions de rappel pour les événements de connexion et de réception de messages, définit les paramètres de connexion au broker MQTT, configure l'authentification et initie la connexion au broker MQTT. Cela permet au client de se connecter au broker, de s'abonner à des topics et de recevoir des messages.
+
+## Envoi de la Position Initiale, Démarrage de la Boucle MQTT et Gestion des Interruptions
+
+Ce segment de code envoie la position initiale à la base de données, démarre la boucle de traitement des messages MQTT, et gère les interruptions du programme.
+
+```python
+send_initial_position()
+
+client.loop_start()
+
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("Interruption du programme. Fermeture de la connexion MQTT...")
+    client.loop_stop()
+    client.disconnect()
+```
+
+#### Explication en Détails
+
+1. **Envoi de la Position Initiale** :
+
+   ```python
+   send_initial_position()
+   ```
+
+   - **send_initial_position()** : Cette ligne appelle la fonction `send_initial_position` qui envoie la position initiale (Zone 1) à la base de données. Cette fonction est exécutée une fois au démarrage du programme pour enregistrer la position de départ.
+
+2. **Démarrage de la Boucle de Traitement des Messages MQTT** :
+
+   ```python
+   client.loop_start()
+   ```
+
+   - **client.loop_start()** : Cette ligne démarre une boucle en arrière-plan qui permet au client MQTT de traiter les messages et d'appeler les fonctions de rappel (`on_connect` et `on_message`) lorsque des événements MQTT se produisent. Cela permet au client de rester connecté au broker et de recevoir des messages en continu.
+
+3. **Boucle Infinie pour Maintenir le Programme en Exécution** :
+
+   ```python
+   try:
+       while True:
+           time.sleep(1)
+   ```
+
+   - **try** : Le bloc `try` commence ici et inclut une boucle infinie pour maintenir le programme en cours d'exécution.
+   - **while True** : Cette ligne crée une boucle infinie, ce qui signifie que le code à l'intérieur de la boucle s'exécutera en continu jusqu'à ce que la boucle soit interrompue.
+   - **time.sleep(1)** : Cette ligne met le programme en pause pendant 1 seconde à chaque itération de la boucle. Cela permet d'éviter une surcharge du processeur en introduisant une courte pause entre les cycles de la boucle.
+
+4. **Gestion des Interruptions par l'Utilisateur** :
+
+   ```python
+   except KeyboardInterrupt:
+       print("Interruption du programme. Fermeture de la connexion MQTT...")
+       client.loop_stop()
+       client.disconnect()
+   ```
+
+   - **except KeyboardInterrupt** : Ce bloc intercepte les interruptions du clavier (par exemple, lorsque l'utilisateur appuie sur `Ctrl+C`).
+   - **print("Interruption du programme. Fermeture de la connexion MQTT...")** : Affiche un message indiquant que le programme est interrompu et que la connexion MQTT va être fermée.
+   - **client.loop_stop()** : Arrête la boucle MQTT proprement. Cela signifie que le client MQTT cesse de traiter les messages et les événements en arrière-plan.
+   - **client.disconnect()** : Déconnecte le client du broker MQTT. Cela ferme la connexion de manière appropriée et assure que toutes les ressources sont libérées correctement.
+
+### En Résumé
+
+- **send_initial_position()** : Envoie la position initiale à la base de données pour enregistrer la position de départ.
+- **client.loop_start()** : Démarre une boucle en arrière-plan pour permettre au client MQTT de traiter les messages et les événements en continu.
+- **Boucle infinie** : Maintient le programme en cours d'exécution avec une pause de 1 seconde entre chaque cycle pour éviter de surcharger le processeur.
+- **Gestion des interruptions** : Intercepte les interruptions de clavier, arrête proprement la boucle MQTT et déconnecte le client du broker MQTT, garantissant ainsi une fermeture propre et sécurisée du programme.
