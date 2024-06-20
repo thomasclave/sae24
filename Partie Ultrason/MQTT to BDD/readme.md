@@ -7,7 +7,7 @@
 - `time` : Module pour les fonctions liées au temps.
 - `mysql.connector` : Bibliothèque pour interagir avec une base de données MySQL.
 - `datetime` : Module pour obtenir la date et l'heure actuelles.
-- `collections.deque` : Classe pour créer une liste à double extrémité sous cette forme : [x, x].
+- `collections.deque` : Classe pour créer une liste à double extrémité sous cette forme : [x, x]. (double-ended queue)
 
 ## Variable pour Stocker l'Historique des Zones
 
@@ -35,6 +35,8 @@ if zone is not None:
 
 - **`zone_history.append(zone)`** :
   - Si une zone est définie, elle est ajoutée à la fin de `zone_history`. Si `zone_history` a déjà atteint sa taille maximale de 2, l'élément le plus ancien est automatiquement supprimé pour faire de la place au nouvel élément.
+
+(appendleft permet d'ajouter un élément au début de la deque)
 
 ### Vérification du Demi-Tour :
 
