@@ -33,7 +33,7 @@ def determine_zone(capteur_id, capteur_value):
         # Vérifier si la personne a fait demi-tour
         # Check if the person has turned back
         if len(zone_history) == 2 and zone_history[0] == zone_history[1]:
-            print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")
+            print(f"La personne est revenue dans la zone précédente: Zone {zone - 2}")
             send_to_db(zone - 2)
             zone_history.clear()  # Réinitialiser l'historique après détection de demi-tour / Reset history after detecting turn back
         else:
@@ -50,9 +50,9 @@ def send_to_db(x):
     y = 1
     try:
         conn = mysql.connector.connect(
-            host="192.168.102.250",  # Modifier si nécessaire / Modify if necessary
-            user="g31",              # Modifier si nécessaire / Modify if necessary
-            password="passg31",      # Modifier si nécessaire / Modify if necessary
+            host="192.168.102.250",  
+            user="g31",              
+            password="passg31",      
             database="sae24"
         )
         cursor = conn.cursor()
