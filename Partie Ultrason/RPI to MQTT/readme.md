@@ -2,7 +2,7 @@
 *Optimiser le programme, nouveau fonctionnement, simplification des communications avec le serveur MQTT*
 
 Remarque: Pour chaque Raspberry, nous copions ce programme et nous modifions le code pour les informations suivantes correspondes aux capteurs:
-- Identifiant de connexion au serveur MQTT: CaptU1 (CaptU2, CaptU3 non fonctionnel)
+- Identifiant de connexion au serveur MQTT: CaptU1, CaptU2, CaptU3
 - Le champ id du message MQTT: capteur1, capteur2, capteur3
 
 Serveur: 192.168.102.250
