@@ -50,6 +50,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
         <ul class="nav-links">
             <li><a href="./index.php">Accueil</a></li>
             <li class="active"><a href="./consultation.php">Consultation</a></li>
+            <li><a href="./gestion-projet.html">Gestion de Projet</a></li>
             <li><a href="./mentions-legales.html">Mentions Légales</a></li>
         </ul>
     </nav>

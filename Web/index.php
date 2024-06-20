@@ -19,7 +19,8 @@
         <a class="nav-nom" href="./index.php">SAE24</a>
         <ul class="nav-links">
             <li class="active"><a href="./index.php">Accueil</a></li>
-            <li><a href="./consultation.php">Consultation</a></li>
+            <l><a href="./consultation.php">Consultation</a></li>
+            <li><a href="./gestion-projet.html">Gestion de Projet</a></li>
             <li><a href="./mentions-legales.html">Mentions Légales</a></li>
         </ul>
      </nav>
