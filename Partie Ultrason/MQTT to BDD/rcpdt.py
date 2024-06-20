@@ -5,40 +5,42 @@ import mysql.connector
 from datetime import datetime
 from collections import deque
 
-# Variable globale pour stocker les dernières valeurs des capteurs
-# Global variable to store the last values of the sensors
-sensor_history = {
-    "capteur1": deque(maxlen=2),
-    "capteur2": deque(maxlen=2),
-    "capteur3": deque(maxlen=2)
-}
+# Variable globale pour stocker l'historique des zones
+# Global variable to store the zone history
+zone_history = deque(maxlen=2)
 
 # Fonction pour vérifier l'état des capteurs et déterminer la zone
 # Function to check the state of the sensors and determine the zone
 def determine_zone(capteur_id, capteur_value):
-    # Ajouter la nouvelle valeur à l'historique du capteur
-    # Add the new value to the sensor's history
-    sensor_history[capteur_id].append(capteur_value)
+    global zone_history
 
-    # Vérifier si la personne est revenue en arrière
-    # Check if the person has returned to the same sensor
-    if len(sensor_history[capteur_id]) == 2:
-        last_value = sensor_history[capteur_id][0]
-        current_value = sensor_history[capteur_id][1]
-        if last_value == current_value:
-            print(f"La personne est revenue en arrière au capteur {capteur_id}")
-
+    # Déterminer la zone en fonction du capteur
+    # Determine the zone based on the sensor
+    zone = None
     if capteur_value == "1":
         if capteur_id == "capteur1":
-            print("La personne est dans la zone 2")
-            send_to_db(3)
+            zone = 3
         elif capteur_id == "capteur2":
-            print("La personne est dans la zone 3")
-            send_to_db(5)
+            zone = 5
         elif capteur_id == "capteur3":
-            print("La personne est dans la zone 4")
-            send_to_db(7)
-    elif capteur_value == "0":
+            zone = 7
+    
+    if zone is not None:
+        # Ajouter la nouvelle zone à l'historique
+        # Add the new zone to the history
+        zone_history.append(zone)
+
+        # Vérifier si la personne a fait demi-tour
+        # Check if the person has turned back
+        if len(zone_history) == 2 and zone_history[0] == zone_history[1]:
+            print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")
+            send_to_db(zone - 2)
+            zone_history.clear()  # Réinitialiser l'historique après détection de demi-tour / Reset history after detecting turn back
+        else:
+            print(f"La personne est dans la zone {zone}")
+            send_to_db(zone)
+    
+    if capteur_value == "0":
         print(f"{capteur_id} est revenu à 0, aucune mise à jour de la zone.")
         # The sensor has returned to 0, no zone update.
 
@@ -107,7 +109,7 @@ client.on_message = on_message
 # Configure the MQTT broker (address, port, and optionally credentials)
 broker_address = "192.168.102.250"
 broker_port = 1883
-username = "Capt1"
+username = "CaptU1"
 password = "a"
 
 # Si le broker nécessite un identifiant et un mot de passe
