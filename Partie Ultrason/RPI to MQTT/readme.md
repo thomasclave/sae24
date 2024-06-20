@@ -91,5 +91,5 @@ Ainsi, la mesure max est comprise comme étant une valeur de seuil utilisable.
 
 
 
-# Amélioration
+# Amélioration possible du programme
 - Gestion des erreurs avec le serveur MQTT: Faire que le programme boucle et re essaye, au lieu de s’arrêter directement, obligeant à relancer le programme (donc les RPI)
