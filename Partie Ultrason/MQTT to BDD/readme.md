@@ -22,7 +22,9 @@ On dit que aucune zone à étais définis au début de cette fonction, par la su
 
 la condition :
 
-``if zone is not None:
+``
+
+if zone is not None:
 
 
         zone_history.append(zone)``
