@@ -129,7 +129,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                         echo "</tr>";
                     }
                 } elseif ($capteur == 'Ultrason') {
-                    echo "<button id='reset-button' action='./scripts/script_btn_reset.php' class='reset-button'>Réinitialiser le parcours</button>";
+                    echo "<button id='reset-button' action='./scripts/script_btn_reset.php' class='reset-button'>Réinitialiser le parcours</button><br>";
                     echo "<table class='salle-table-ultra'>";
                     echo "<tr><th>Zone 1</th><th></th><th>Zone 2</th><th></th><th>Zone 3</th><th></th><th>Zone 4</th></tr>";
                     echo "<tr class='salle-tr-ultra'>";
