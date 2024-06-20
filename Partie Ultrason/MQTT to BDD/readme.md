@@ -76,3 +76,21 @@ Il y a aussi une condition pout voir le retour du capteur a la veleur 0 et affic
         send_to_db(1)
 
 Cette fonction permet de définir la position initiale de la zone ou la personne se trouve logiquement. Puis l'affiche dans l'invite de commande le set de la position. En fin on envoie la position sur la base de donnée.
+
+## Fonctions de Rappel pour les Événements MQTT
+
+    def on_connect(client, userdata, flags, rc):
+        print("Connected with result code " + str(rc))
+        client.subscribe("sae24/+/ultra")
+
+    def on_message(client, userdata, msg):
+        topic = msg.topic
+        payload = str(msg.payload.decode("utf-8"))
+        print(f"Message reçu sur le sujet {topic} : {payload}")
+        try:
+            data = json.loads(payload)
+            capteur_id = data['id']
+            capteur_value = data['data']
+            determine_zone(capteur_id, capteur_value)
+        except json.JSONDecodeError:
+            print(f"Erreur de décodage JSON pour le message sur le sujet {topic} : {payload}")
