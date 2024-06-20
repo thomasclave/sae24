@@ -11,7 +11,7 @@
 ``time`` : Module pour les fonctions liées au temps.
 
 
-``  mysql.connector`` : Bibliothèque pour interagir avec une base de données MySQL.
+``mysql.connector`` : Bibliothèque pour interagir avec une base de données MySQL.
 
 
 `` datetime ``: Module pour obtenir la date et l'heure actuelles.
@@ -66,3 +66,13 @@ Sinon
 Il y a aussi une condition pout voir le retour du capteur a la veleur 0 et affiche dans l'invite de commande l'ID du capteur qui est revenu à 0.
 
 ## Fonction pour Envoyer les Données à la Base de Données
+
+``send_to_db()`` Nous permet de pouvoir envoyer la valeur de X a la base de donnée. Tout d'abort on définis la position y à 1 car on de bouge pas sur l'axe y.
+
+## Fonction pour Envoyer la Position Initiale
+
+    def send_initial_position():
+        print("Envoi de la position initiale: Zone 1")
+        send_to_db(1)
+
+Cette fonction permet de définir la position initiale de la zone ou la personne se trouve logiquement. Puis l'affiche dans l'invite de commande le set de la position. En fin on envoie la position sur la base de donnée.
