@@ -11,7 +11,7 @@
 
 ## Variable pour stocker l'historique des zones 
 
-zone_history = deque(maxlen=2)
+``zone_history = deque(maxlen=2)``
 
 maxlen permet de définir la taille de cette liste à max 2
 
@@ -34,9 +34,10 @@ la condition :
 
 - Si une zone est définie, elle est ajoutée à la fin de zone_history. Si zone_history a déjà atteint sa taille maximale de 2, l'élément le plus ancien est supprimé pour faire de la place au nouvel élément.
 
-``if len(zone_history) == 2 and zone_history[0] == zone_history[1] ``: Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
+``if len(zone_history) == 2 and zone_history[0] == zone_history[1] ``: 
+- Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
 
-``print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")`` :
+``print(f"La personne est revenue dans la zone précédente: Zone {zone - 2}")`` :
 - Affiche un message indiquant que la personne est revenue dans la zone précédente.
 
 ``send_to_db(zone - 2)`` : 
@@ -46,3 +47,12 @@ la condition :
 ``zone_history.clear() ``: 
 
 - Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
+
+
+Sinon 
+
+- la personne n'as pas fait demi tours alors on envoye la valeur de la zone avec la fonction ``send_to_db()``
+
+Il y a aussi une condition pout voir le retour du capteur a la veleur 0 et affiche dans l'invite de commande l'ID du capteur qui est revenu à 0.
+
+## Fonction pour Envoyer les Données à la Base de Données
