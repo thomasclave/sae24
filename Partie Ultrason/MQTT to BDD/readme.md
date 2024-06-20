@@ -23,20 +23,21 @@ On dit que aucune zone à étais définis au début de cette fonction, par la su
 la condition :
 
 
-if zone is not None:``
-        zone_history.append(zone)``
-if zone is not None :
+    if zone is not None:
+        zone_history.append(zone)
+
+    if zone is not None :
+
  - Vérifie si une zone a été définie. Si la zone est None, cela signifie qu'aucune détection valide n'a été faite et le reste du code ne s'exécute pas.
 
-zone_history.append(zone) :
+``zone_history.append(zone) :``
+
 - Si une zone est définie, elle est ajoutée à la fin de zone_history. Si zone_history a déjà atteint sa taille maximale de 2, l'élément le plus ancien est supprimé pour faire de la place au nouvel élément.
 
-if len(zone_history) == 2 and zone_history[0] == zone_history[1] : Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
+``if len(zone_history) == 2 and zone_history[0] == zone_history[1] ``: Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
 
-print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}") : Affiche un message indiquant que la personne est revenue dans la zone précédente.
+``print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")`` : Affiche un message indiquant que la personne est revenue dans la zone précédente.
 
-send_to_db(zone - 2) : 
+``send_to_db(zone - 2)`` : Enregistre dans la base de données la zone précédente en appelant send_to_db avec zone - 2.
 
-Enregistre dans la base de données la zone précédente en appelant send_to_db avec zone - 2.
-
-zone_history.clear() : Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
+``zone_history.clear() ``: Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
