@@ -555,7 +555,7 @@ root.mainloop()
 # permet de convertir en binaire MAIS multiplie par 1000 avant (pour éviter les nombre binaires infinis de chiffres à virgules)
 
 """
-
+"""
 
 import tkinter as tk
 import pandas as pd
@@ -627,7 +627,7 @@ def on_click(event):
         canvas.itemconfig(grid_ids[row][col], fill='darkgray')
         root.after(100, lambda: canvas.itemconfig(grid_ids[row][col], fill='gray'))
         move_circle(row, col)
-        """
+        
         double commentaires sinon les vrais commentaires n'en sont plus...
         #   EXEMPLE de fonctionnement :
                 print(f"Capteur 1 : on va prendre le nombre décimal {value1} et le multiplié par 1000 avant de le convertir en en binaire.")
@@ -644,7 +644,7 @@ def on_click(event):
                 print(f"Cela correspond en binaire à {binaire}.\n\n")
 
                 affiché : "Cela correspond en binaire à 10110."
-        """
+                
 
 
         print(f"Action sur les capteurs 1, 2 et 3 en cours...\n")
@@ -710,7 +710,7 @@ reset_button.pack()
 
 # Lance la boucle principale de l'interface graphique
 root.mainloop()
-
+"""
 
 
 
