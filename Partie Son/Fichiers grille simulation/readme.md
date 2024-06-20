@@ -82,17 +82,17 @@ pip install openpyxl
 
 ---------------------TEST V3.6---------------------
 
-#ajout de plusieurs feuille excell afin d'avoir trois valeurs des trois capteurs !!!!
+ajout de plusieurs feuille excell afin d'avoir trois valeurs des trois capteurs !!!!
 
 ---------------------TEST V4.7---------------------
 
-# Ajout fonctionnalité convertion decimal / binaire + action pour les trois capteurs + dialogue invite commande
+Ajout fonctionnalité convertion decimal / binaire + action pour les trois capteurs + dialogue invite commande
 
-# permet de convertir en binaire MAIS multiplie par 1000 avant (pour éviter les nombre binaires infinis de chiffres à virgules)
+permet de convertir en binaire MAIS multiplie par 1000 avant (pour éviter les nombre binaires infinis de chiffres à virgules)
 
 ---------------------TEST V5.5---------------------
 
-# Ajout fonctionnalité pour capturer la sortie standard, un formatage pourresembler à un fichier lambda
+Ajout fonctionnalité pour capturer la sortie standard, un formatage pourresembler à un fichier lambda
 JSON et donc pour enregistrer ces données dans un fichier JSON
 
 ---------------------TEST V5.8---------------------
