@@ -1,9 +1,9 @@
-import time
-import paho.mqtt.client as mqtt
-import random
 import grovepi
 from grovepi import *
 import json
+import paho.mqtt.client as mqtt
+import time
+import sys
 
 ## Variables & fonctions ##
 led = 3 # Connexion de la LED sur la pin D3
@@ -12,93 +12,81 @@ digitalWrite(led,0) # Eteindre la LED
 grovepi.set_bus("RPI_1") # parametrer le bus I2C pour utiliser le materiel
 ultrasonic = 2 # Connexion du capteur ultrason sur la pin D4
 seuil = 0
-def on_connect(client, userdata, flags, rc): # message lors de la connexion au serveur
-    print("Connecté avec le code de retour: " + str(rc))
-def publish(topic, message): # Publier la donnée sur le broker MQTT
-    print("Valeur publiée: " + message)
-    client.publish(topic, message)
 
-#### Initialisation connexion serveur MQTT ####
+# Attacher les fonctions
 client = mqtt.Client() # Créer une instance du client
 client.username_pw_set("CaptU1", "a") # ID et MDP de connexion
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
-# Attacher les fonctions de callback
-client.on_connect = on_connect
-
-# Se connecter au serveur MQTT
-while True:
+def mqtt_connect():
+    digitalWrite(led,1) # Allumer la LED
     try:
-        client.connect("192.168.102.200", 1883, 60)
+        client.connect("192.168.102.250", 1883)
     except:
         print("Erreur de connexion au serveur")
-        # Clignoter la LED
-        for i in range(5):
-            digitalWrite(led,1)
-            time.sleep(0.1)
-            digitalWrite(led,0)
-            time.sleep(0.1)
-
-        continue
+        sys.exit()
+    digitalWrite(led,0) # Eteindre la LED
+    print("Connexion au serveur MQTT réussie")
+def mqtt_push(message):
+    global last_mqtt_msg
+    topic = "sae24/E102/ultra"
+    print("Publication du message " + str(message))
+    try:
+        client.publish(topic, json.dumps(message))
+    except:
+        print("Erreur de l'envoie du message au serveur MQTT")
+        mqtt_connect()
+    last_mqtt_msg = message
+def filtred_value():
+    mesures = []
+    for i in range(3):
+        mesures.append(grovepi.ultrasonicRead(ultrasonic)) # récuperer la distance mesurée
+        time.sleep(0.2) # ne pas surcharger le bus I2C
+    if max(mesures) - min(mesures) < 4 and max(mesures) < 490:
+        # la mesure est correcte
+        return round(sum(mesures) / len(mesures))
     else:
-        #Executer la suite du code
-        break
-
-# Démarrer la boucle réseau
-client.loop_start()
-#### Fin Initialisation connexion serveur MQTT ####
+        # la mesure est instable
+        return 0
 
 
+### Programme principal ###
+mqtt_connect()
 
-
-#### 0 - Initialisation du capteur: Enregistrement du seuil de detection ####
-init = True
+## Déterminer la valeur du seuil ##
 digitalWrite(led,1) # Allumer la LED
-while init: # Tant que le bloque initialisation n'est pas validé
-    distance = grovepi.ultrasonicRead(ultrasonic) # récuperer la distance mesurée
-    if distance != 65535:
-        print(distance)
-        seuil = distance-40
-        print(str("Le seuil enregistré est: ") + str(seuil))
-        init = False
-    time.sleep(0.2) # ne pas surcharger le bus I2C
+seuil = 0
+while seuil <= 10:
+    seuil = filtred_value() - 5
+    print("Seuil en cours d'enregistrement: " + str(seuil))
+print("Le seuil est enregistré à: " + str(seuil) + "cm")
+data = {
+    "id": "capteur1",
+    "data": "0"
+}
+mqtt_push(data)
 digitalWrite(led,0) # Eteindre la LED
-#### FIN Initialisation du capteur: Enregistrement du seuil de detection ####
 
 
-## Main ##
-last_val = 0
 while True:
-    distance = grovepi.ultrasonicRead(ultrasonic) # récuperer la distance mesurée
-    print("Distance mesurée: " + str(distance))
-    if (distance < last_val-15 or distance > last_val+15) and distance < 490: # si la distance change
-        if distance < seuil:  ## Faisceau coupé ##
-            print(distance)
-            data = {
-                "id": "capteur1",
-                "data": "1"
-            }
-            publish("sae24/E102/ultra", json.dumps(data)) # Publier la donnée sur le serveur
+    distance = filtred_value()
+    print("Distance: " + str(distance) + "cm")
 
-            last_val = distance # enregistrer la précédante mesure
-            digitalWrite(led,1) # Allumer la LED
-            time.sleep(0.25)
-            digitalWrite(led,0) # Eteindre la LED
-        else: ## Faisceau libre ##
-            print(distance)
-            data = {
-                "id": "capteur1",
-                "data": "0"
-            }
-            publish("sae24/E102/ultra", json.dumps(data)) # Publier la donnée sur le serveur
+    if distance < seuil and distance != 0 and last_mqtt_msg.get("data") != "1":
+        # nouvelle obstacle détecté
+        data = {
+            "id": "capteur1",
+            "data": "1"
+        }
+        mqtt_push(data)
+        digitalWrite(led,1) # Allumer la LED
+    elif distance > seuil and last_mqtt_msg.get("data") != "0":
+        # plus d'obstacle
+        data = {
+            "id": "capteur1",
+            "data": "0"
+        }
+        mqtt_push(data)
+        digitalWrite(led,0) # Eteindre la LED
 
-            last_val = distance # enregistrer la précédante mesure
-            digitalWrite(led,1) # Allumer la LED
-            time.sleep(0.25)
-            digitalWrite(led,0) # Eteindre la LED
-
-    time.sleep(0.2) # ne pas surcharger le bus I2C
-## Fin Main ##
-
-
-client.loop_stop() # Arrêter la boucle réseau (deconnexion au serveur MQTT)
+client.disconnect()
+### Fin Programme principal ###
