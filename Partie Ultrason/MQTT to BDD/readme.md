@@ -325,7 +325,11 @@ rc : Le code de résultat de la connexion, où 0 signifie une connexion réussie
 
 
 ``flags ``:
-- Un dictionnaire contenant des informations sur l'état de la connexion, principalement utilisé pour gérer les sessions persistantes. Le drapeau session present est particulièrement utile pour savoir si une session précédente est encore présente sur le broker.
+- Un dictionnaire contenant des informations sur l'état de la connexion, principalement utilisé pour gérer les sessions persistantes*. Le drapeau session present est particulièrement utile pour savoir si une session précédente est encore présente sur le broker.
+
+
+*: Une session persistante en MQTT est un mécanisme qui permet de maintenir l'état de la connexion d'un client avec un broker MQTT entre plusieurs connexions.
+
 
 Lorsqu'une connexion est établie avec succès, la fonction :
 
