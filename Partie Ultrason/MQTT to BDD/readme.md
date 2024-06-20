@@ -214,6 +214,11 @@ def send_to_db(x):
      - `"Ultrason"` : Le type de capteur.
      - `"E102"` : Le nom de la salle.
 
+    
+- Les triple guillemets (``"""..."""``) permettent de créer des chaînes de texte sur plusieurs lignes. 
+- Les ``%s`` sont des placeholders (espaces réservés) utilisés pour insérer des valeurs dans une requête SQL de manière sécurisée. En utilisant des placeholders, on évite les attaques par injection SQL.
+Les valeurs réelles sont passées dans un tuple comme deuxième argument de ``execute()``. Le curseur remplace les placeholders par les valeurs correspondantes dans le tuple.
+
 7. **Validation de la transaction** :
 
    ```python
