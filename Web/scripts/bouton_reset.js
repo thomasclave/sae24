@@ -8,20 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         cases.forEach(function(caseElement) {
             caseElement.className = caseElement.className.includes('ultra') ? "case_vide_ultra" : "case_vide";
         });
-        // Effectuer une requête AJAX pour réinitialiser les positions dans la BD
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "./scripts/script_btn_reset.php", true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log("Positions réinitialisées avec succès");
-                // Réponse de la requête AJAX réussie, vous pouvez effectuer des actions supplémentaires ici si nécessaire
-            } else {
-                console.error("Erreur lors de la réinitialisation des positions");
-            }
-        };
-        xhr.onerror = function() {
-            console.error("Erreur de réseau ou autre lors de la réinitialisation des positions");
-        };
-        xhr.send();
+
+        // Send a request to the script to reset the database
+        fetch('./scripts/script_btn_reset.php', {
+            method: 'GET', 
+        })
     });
 });

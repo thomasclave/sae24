@@ -11,11 +11,5 @@ $capteur = $_SESSION["capteur"];
 $requete_reset = "DELETE FROM Data WHERE NomSalle = '$salle' AND TypeCapt = '$capteur'";
 $resultat_reset = mysqli_query($id_bd, $requete_reset);
 
-if ($resultat_reset) {
-    echo "Réinitialisation des positions réussie.";
-} else {
-    echo "Erreur lors de la réinitialisation des positions : " . mysqli_error($id_bd);
-}
-
 mysqli_close($id_bd);
 ?>
