@@ -69,5 +69,15 @@ Remarque: Si le serveur MQTT s'arrete en cours de route ou n'est pas disponible 
 
 
 
+# Résolution de problèmes
+![screenshot](Trop_erreur.png)
+Trop d'erreurs de mesures sont renvoyés, ce qui faire que la fonction de filtrage r'envoie toujours 0 (affichage Distance: 0cm).
+Pour parrer ce problème, une nouvelles mesures sera prise dès que la valeur 65535 est détectée.
+
+![screenshot](PB_boucle-for1.png)
+![screenshot](PB_boucle-for2.png)
+solution: boucle while
+
+
 # Amélioration
 - Faire que le programme boucle, au lieu de s'arreter, lorsque le serveur MQTT n'est plus disponible
