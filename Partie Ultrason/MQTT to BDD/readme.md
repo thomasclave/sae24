@@ -36,8 +36,13 @@ la condition :
 
 ``if len(zone_history) == 2 and zone_history[0] == zone_history[1] ``: Vérifie que zone_history contient deux éléments et que les deux dernières zones sont identiques, indiquant que la personne est revenue au même capteur.
 
-``print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")`` : Affiche un message indiquant que la personne est revenue dans la zone précédente.
+``print(f"La personne est revenue dans la zone précédente: Zone {zone - 1}")`` :
+- Affiche un message indiquant que la personne est revenue dans la zone précédente.
 
-``send_to_db(zone - 2)`` : Enregistre dans la base de données la zone précédente en appelant send_to_db avec zone - 2.
+``send_to_db(zone - 2)`` : 
 
-``zone_history.clear() ``: Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
+- Enregistre dans la base de données la zone précédente en appelant send_to_db avec zone - 2.
+
+``zone_history.clear() ``: 
+
+- Vide l'historique des zones pour recommencer après la détection d'un demi-tour.
