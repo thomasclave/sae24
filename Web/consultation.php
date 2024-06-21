@@ -33,7 +33,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultation</title>
+    <title>SAE24 - Consultation</title>
 
     <!-- CSS Links -->
     <link rel="stylesheet" href="./css/style.css">
@@ -46,10 +46,12 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <a class="nav-nom" href="./index.php">SAE24</a>
+        <a class="nav-nom" href="./index.php">SAE24 - Groupe 31</a>
         <ul class="nav-links">
             <li><a href="./index.php">Accueil</a></li>
             <li class="active"><a href="./consultation.php">Consultation</a></li>
+            <li><a href="./administration.php">Administration</a></li>
+            <li><a href="./gestion-projet.html">Gestion de Projet</a></li>
             <li><a href="./mentions-legales.html">Mentions Légales</a></li>
         </ul>
     </nav>
@@ -127,6 +129,7 @@ if (isset($_POST["salle"]) && isset($_POST["capteur"])) {
                         echo "</tr>";
                     }
                 } elseif ($capteur == 'Ultrason') {
+                    echo "<button id='reset-button' action='./scripts/script_btn_reset.php' class='reset-button'>Réinitialiser le parcours</button><br>";
                     echo "<table class='salle-table-ultra'>";
                     echo "<tr><th>Zone 1</th><th></th><th>Zone 2</th><th></th><th>Zone 3</th><th></th><th>Zone 4</th></tr>";
                     echo "<tr class='salle-tr-ultra'>";

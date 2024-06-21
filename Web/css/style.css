@@ -196,13 +196,11 @@ td{
     padding-left: 2rem;
 }
 
-.lignebleue {
-    background-color: rgb(142, 214, 247);
+
+.img-trello {
+    width: 40%;
 }
 
-.casecochee {
-    background-color: rgba(51, 51, 51, 0.295);
-}
 
 
 /*Elements footer*/
@@ -310,8 +308,6 @@ footer img {
     height: 10rem;
 }
 
-
-
 .tab-legende {
     width: 20%;
     margin-left: 40%;
@@ -400,6 +396,48 @@ form input[type="submit"]:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+/*Personnal aproach Styling*/
+.approche-perso {
+    width: 60%;
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #313131;
+    border-radius: 5px;
+}
+
+.approche-perso h3 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.approche-perso h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.approche-perso p {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/*Confirmation Message Admin*/
+.confirmation-message {
+    background-color: #dff0d8; 
+    color: #3c763d; 
+    border: 1px solid #d6e9c6; 
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
 
 /*Reset Button Styling*/
 
