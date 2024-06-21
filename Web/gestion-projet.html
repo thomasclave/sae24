@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE24 - Gestion de Projet</title>
+
+    <!--CSS links-->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!--Policies links-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+</head>
+<body>
+    <!--Navbar-->
+    <nav class="navbar">
+        <a class="nav-nom" href="./index.php">SAE24 - Groupe 31</a>
+        <ul class="nav-links">
+            <li><a href="./index.php">Accueil</a></li>
+            <li><a href="./consultation.php">Consultation</a></li>
+            <li><a href="./administration.php">Administration</a></li>
+            <li class="active"><a href="./gestion-projet.html">Gestion de Projet</a></li>
+            <li><a href="./mentions-legales.html">Mentions Légales</a></li>
+        </ul>
+     </nav>
+     
+     <!--Title-->
+     <header>
+     <h2>Gestion de Projet</h2>
+     </header>
+
+     <main>
+    
+        <h2>Diagramme de GANTT</h2>
+        <p>
+            Synthèse finale du projet sur un diagramme de GANTT à l'aide du logiciel <a href="https://www.ganttproject.biz">GanttProject</a>. <br><br>
+            <img src="./images/gantt.jpeg" alt="Capture d'écran du Diagramme de Gantt">
+            <br><br>
+        </p>
+        
+        <h2>Utilisation d'outils collaboratifs</h2>
+        <p>
+            Afin de nous organiser dans la réalisation des différentes tâches, nous avons mis en place un <a href="https://trello.com/">Trello</a>.<br>
+            Nous avons fait le choix de répartir sur l'espace de travail différents tableaux, comme le présente la capture suivante : <br><br>
+            <img class="img-trello" src="./images/Trello1.png" alt="Capture d'écran de l'espace de travail Trello"> <br> <br>
+            Voici le contenu d'un des tableaux, par exemple, le tableau « Ultrason » : <br><br>
+            <img class="img-trello" src="./images/Trello2.png" alt="Capture d'écran du tableau Trello « Ultrason »"> <br> <br>
+            <br><br>
+        </p>
+    
+        <h2>Approche Personnelle et Problèmes de Chaque Membre</h2>
+        <br>
+
+        <section class="approche-perso">
+            <h3>Approche de VIGUIER Marc</h3>
+            <h4>Nombre d'heures passées : 83 Heures dont 47 de travail personnel</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Problème → La conversion en binaire ne se passait pas correctement (division infinie par 0). <br>
+                Solution → J'ai arrondi au millième les atténuations (afin de n'avoir que 1 à 5 ou 6 occurrences de chacune des valeurs) et ensuite je les ai multipliées par 1000 avant de les transformer en binaire. <br>
+                <br>
+                Problème → Aucune idée de comment gérer un affichage graphique dans un code Python. <br>
+                Solution → Étude et utilisation de la librairie tkinter. <br>
+                <br>
+                Problème → Aucune idée de comment intégrer une feuille Excel dans un code Python. <br>
+                Solution → Étude et utilisation de la librairie pandas. <br>
+                <br>
+                Problème → Aucune idée de comment récupérer les infos sortant du terminal et de les utiliser au sein d’un code Python. <br>
+                Solution → Étude et utilisation des librairies io et sys. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 4/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de GOUENNOU Tristan</h3>
+            <h4>Nombre d'heures passées : 36 Heures</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Problème → Localisation d’une personne précise avec les capteurs impossible. <br>
+                Solution → Adapter le cahier des charges pour pouvoir détecter la personne dans une zone précise. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 4/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de SIMARD Romain</h3>
+            <h4>Nombre d'heures passées : 40 Heures</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Problème → Savoir quand la personne revient en arrière il fallait détecter si elle repasse devant le capteur. <br>     
+                Solution → Création d’une liste qui permet de connaître la zone précédente donc savoir si la personne a fait demi-tour. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 4/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de CARLET Thomas</h3>
+            <h4>Nombre d'heures passées : 33 Heures</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Une synthèse détaillée est disponible en suivant ce lien. <br>
+                <a href="https://github.com/thomasclave/sae24/blob/main/Partie%20Ultrason/RPI%20to%20MQTT/readme.md">Read-me github</a> <br>
+                <br>
+                Problème → Trop d'erreurs de mesures sont renvoyées, ce qui fait que la fonction de filtrage renvoie toujours 0 (affichant Distance: 0cm). <br>
+                Solution → Pour parer ce problème, une nouvelle mesure est prise dès que la valeur 65535 est détectée. <br>
+                <br>
+                Problème → Visiblement, quand la boucle for de filtration de valeurs s’exécute, elle ne regarde qu’une fois sa condition de fonctionnement. Il est donc inutile et sans effet de vouloir modifier cette condition, puisque seulement le contenu de la boucle est répété.<br>
+                Solution → Utilisation d'une boucle while, qui elle relit sa condition de fonctionnement.
+                <br>-> En résolvant l'erreur du 65535, j'ai vu qu’il était possible de se soulager de la contrainte de devoir toujours mettre un obstacle de référence (servant de seuil) au démarrage du programme. Pour cela, il suffit juste d’accepter les valeurs comprises entre 490 et 500 (qui correspond à la mesure max), en passant le seuil de 490 à 500. Ainsi, la mesure max est comprise comme étant une valeur de seuil utilisable. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 1,25/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de MOINE Fabien</h3>
+            <h4>Nombre d'heures passées : 45 Heures</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Problème → La cartographie ne s’applique que pour un seul capteur, il reste à déterminer la cartographie pour les deux autres sans avoir à tout refaire. <br>
+                Solution → Je réalise deux fonctions Python qui permettent de retourner des matrices. <br>
+                <br>
+                Problème → Les données sont envoyées en JSON sur le bus MQTT. <br>
+                Solution → Utilisation de la bibliothèque JSON afin d’extraire la donnée. <br>
+                <br>
+                Problème → Les données sont envoyées sur 3 topics différents. <br>
+                Solution → S’abonner au topic des trois capteurs sae24/E102/son/# et trier ensuite les capteurs en fonction des deux premiers bits. <br>
+                <br>
+                Problème → Les données récupérées sont en binaire. <br>
+                Solution → Convertir du binaire vers le décimal, puis diviser par 1000 (Il s'agit d’un choix que nous avons fait pour simplifier la transmission des données, elles sont multipliées par 1000 dans le code de transmission vers le bus MQTT. J’effectue donc la transformation inverse dans le code pour préserver les données). <br>
+                La donnée finale correspond à l'atténuation perçue par le capteur (ex : 0.014). <br>
+                <br>
+                Problème → Comment trouver la position de l’objet à partir de la valeur d'atténuation et envoyer la position sur la DB. <br>
+                Solution → Le script récupère les tableaux Excel de cartographie des salles et compare les valeurs d'atténuation reçues avec les cases du tableau. Toutes les positions possibles de l’objet pour cette valeur d'atténuation sont ensuite stockées dans une variable. <br>
+                Le script fait de même pour les deux mesures suivantes qui correspondent aux deux autres capteurs. <br>
+                Grâce à la trilatération, le script détermine la position commune à tous les capteurs et détermine la position de l’objet. <br>
+                Cette position (de la forme (X;Y)) est envoyée sur la base de données avec la date et l’heure. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 3,5/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de CLAVÉ Thomas</h3>
+            <h4>Nombre d'heures passées : 50 Heures</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                Problème → Affichage d'un tableau en fonction des dimensions de la salle. <br>
+                Solution → Créer un système de récursivité en créant Y lignes "tr" et pour chaque ligne X "td". <br>
+                <br>
+                Problème → Affichage dynamique des positions. <br>
+                Solution → Attribution de classes via un script PHP et JS permettant d'attribuer une mise en page via une classe. Néanmoins, j'ai dû modifier mon programme de création de tableau pour ajouter des classes "pos_x" et "pos_y" pour les identifier et les associer au résultat de la BDD. <br>
+                <br>
+                Problème → Difficulté de gestion des données à travers les pages et scripts. <br>
+                Solution → Créer un système solide et fiable de paramètres $_SESSION. <br>
+                <br>
+            </p>
+            <h4>Difficulté : 3,5/5</h4>
+        </section>
+
+        <section class="approche-perso">
+            <h3>Approche de MARTY Clément</h3>
+            <h4>Nombre d'heures passées :</h4>
+            <h4>Problèmes rencontrés et solutions :</h4>
+            <p>
+                <br>
+            </p>
+            <h4>Difficulté :</h4>
+        </section>
+    
+    </main>
+
+<!--Footer-->
+<footer>
+    Site réalisé dans le cadre de la SAE24<br>
+    <a href="./mentions-legales.html">Mentions Légales</a><br>
+</footer>
+</body>
+</html>
